@@ -20,7 +20,7 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - run: npm ci
     - name: serverless deploy --force
-      uses: serverless/github-action@v2
+      uses: serverless/github-action@3
       with:
         args: deploy
       env:
