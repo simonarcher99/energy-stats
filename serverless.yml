@@ -1,6 +1,6 @@
 service: energy-stats
-plugins: 
-  - serverless-s3-sync
+# plugins: 
+#   - serverless-s3-sync
 
 provider:
   name: aws
@@ -10,9 +10,9 @@ custom:
   aliasHostedZoneId: Z3AQBSTGFYJSTF    # us-east-1
   aliasDNSName: s3-website-us-east-1.amazonaws.com
   siteName: energy.simonarcher.info
-  s3Sync:
-    - bucketName: ${self:custom.siteName}
-      localDir: build
+  # s3Sync:
+  #   - bucketName: ${self:custom.siteName}
+  #     localDir: build
 
 resources:
   Resources:
