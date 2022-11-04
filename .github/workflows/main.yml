@@ -25,7 +25,6 @@ jobs:
       run: npm install
     - name: Deploy serverless
       run: sls deploy --force
-    - 
   sync-aws-s3-bucket:
     runs-on: ubuntu-latest
     steps:
