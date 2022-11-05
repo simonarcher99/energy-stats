@@ -14,7 +14,7 @@ const signupSchema = z.object({
 export const handler = async (event: any) => {
   try {
     const parsedEvent = signupSchema.safeParse(JSON.parse(event.body));
-
+    console.log(`body: ${event.body}`)
     console.log(`Input is valid: ${parsedEvent.success}`);
     if (!parsedEvent.success) {
       return sendResponse(400, { message: "Invalid input" });
