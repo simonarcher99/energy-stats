@@ -1,4 +1,1 @@
-Create signup page frontend
-Create api gateway
-Create signup route on api gateway
 Create lambda that stores account info when signup route on api is hit
