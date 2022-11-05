@@ -1,53 +1,73 @@
 service: energy-stats
 
+variablesResolutionMode: 20210326
+
 provider:
   name: aws
   runtime: nodejs16.x
+  environment:
+    user_pool_id: { Ref: UserPool }
+    client_id: { Ref: UserClient }
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - cognito-idp:AdminInitiateAuth
+        - cognito-idp:AdminCreateUser
+        - cognito-idp:AdminSetUserPassword
+      Resource: "*"
+  
+
+plugins:
+  - serverless-webpack
 
 custom:
+  esbuild:
+    bundle: true
+    minify: false
   aliasHostedZoneId: Z3AQBSTGFYJSTF    # us-east-1
   aliasDNSName: s3-website-us-east-1.amazonaws.com
   siteName: energy.simonarcher.info
+  webpack:
+    webpackConfig: 'webpack.config.js' # Name of webpack configuration file
+    includeModules: false # Node modules configuration for packaging
+    packager: 'npm' # Packager that will be used to package your external modules
+    excludeFiles: src/**/*.test.js # Provide a glob for files to ignore
+
+package:
+  individually: true
+
+functions:
+  loginUser:
+    handler: backend/auth/login.handler
+    events:
+      - http:
+          path: user/login
+          method: post
+          cors: true
+  signupUser:
+    handler: backend/auth/signup.handler
+    events:
+      - http:
+          path: user/signup
+          method: post
+          cors: true
+  privateAPI:
+    handler: backend/auth/private.handler
+    events:
+      - http:
+          path: user/private
+          method: post
+          cors: true
+          authorizer:
+            name: PrivateAuthorizer
+            type: COGNITO_USER_POOLS
+            arn:
+              Fn::GetAtt:
+                - UserPool
+                - Arn
+            claims:
+              - email
 
 resources:
-  Resources:
-    StaticSite:
-      Type: AWS::S3::Bucket
-      Properties:
-        AccessControl: PublicRead
-        BucketName: ${self:custom.siteName}
-        WebsiteConfiguration:
-          IndexDocument: index.html
-          ErrorDocument: index.html
-    StaticSiteS3BucketPolicy:
-      Type: AWS::S3::BucketPolicy
-      Properties:
-        Bucket:
-          Ref: StaticSite
-        PolicyDocument:
-          Statement:
-            - Sid: PublicReadGetObject
-              Effect: Allow
-              Principal: "*"
-              Action:
-              - s3:GetObject
-              Resource:
-                Fn::Join: [
-                  "", [
-                    "arn:aws:s3:::",
-                    {
-                      "Ref": "StaticSite"
-                    },
-                    "/*"
-                  ]
-                ]
-    DnsRecord:
-      Type: "AWS::Route53::RecordSetGroup"
-      Properties:
-        HostedZoneName: simonarcher.info.
-        RecordSets:
-          - Name: energy.simonarcher.info
-            Type: "A"
-            AliasTarget:
-              DNSName: ${self:custom.aliasDNSName}
-              HostedZoneId: ${self:custom.aliasHostedZoneId}
+  - ${file(./serverless/backend/userPool.yml)}
+  - ${file(./serverless/frontend/s3Website.yml)}
