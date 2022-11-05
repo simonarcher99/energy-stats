@@ -1,4 +1,4 @@
-Add loading spinner when logging in and signing up
+Loading spinner bug if incorrect details
 Save access token in state
 Redirect to home page if an access token exists in state
 pass api gateway url from serverless to react

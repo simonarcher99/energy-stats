@@ -11,17 +11,21 @@ import {
   TextField,
   Typography,
   Link as LinkMui,
+  CircularProgress,
 } from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Copyright from "../components/Copyright";
+import { useState } from "react";
 
-const baseUrl = "https://3qwfx5k0o4.execute-api.us-east-1.amazonaws.com/dev"
+const baseUrl = "https://3qwfx5k0o4.execute-api.us-east-1.amazonaws.com/dev";
 
 const theme = createTheme();
 
-const signup = () => {
+const Signup = () => {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const navigate = useNavigate();
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -29,12 +33,16 @@ const signup = () => {
     const password = data.get("password");
     const givenName = data.get("firstName");
     const familyName = data.get("lastName");
+    setIsLoading(true)
     const result = await axios.post(`${baseUrl}/user/signup`, {
       email,
       password,
       givenName,
       familyName,
     });
+    setIsLoading(false)
+    navigate("/login")
+    console.log(result.data)
   };
   return (
     <ThemeProvider theme={theme}>
@@ -116,9 +124,9 @@ const signup = () => {
               type="submit"
               fullWidth
               variant="contained"
-              sx={{ mt: 3, mb: 2 }}
+              sx={{ mt: 3, mb: 2, height: "3rem"}}
             >
-              Sign Up
+              {isLoading ? <CircularProgress color="inherit" /> : "Sign Up"}
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
@@ -137,4 +145,4 @@ const signup = () => {
   );
 };
 
-export default signup;
+export default Signup;
