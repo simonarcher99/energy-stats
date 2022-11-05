@@ -24,8 +24,10 @@ jobs:
     - name: Install NPM dependencies
       run: npm install
     - name: increase node allocation
-      run: export NODE_OPTIONS="--max_old_space_size=4096"
+      run:
     - name: Deploy serverless
+      env:
+         NODE_OPTIONS: "--max_old_space_size=4096"
       run: sls deploy --force
     - run: npm run build
     - uses: jakejarvis/s3-sync-action@master
