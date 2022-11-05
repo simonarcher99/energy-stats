@@ -182,7 +182,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/energy-stats/dev/1667654922373-2022-11-05T13:28:42.373Z/loginUser.zip"
+          "S3Key": "serverless/energy-stats/dev/1667658854764-2022-11-05T14:34:14.764Z/loginUser.zip"
         },
         "Handler": "backend/auth/login.handler",
         "Runtime": "nodejs16.x",
@@ -217,7 +217,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/energy-stats/dev/1667654922373-2022-11-05T13:28:42.373Z/signupUser.zip"
+          "S3Key": "serverless/energy-stats/dev/1667658854764-2022-11-05T14:34:14.764Z/signupUser.zip"
         },
         "Handler": "backend/auth/signup.handler",
         "Runtime": "nodejs16.x",
@@ -252,7 +252,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/energy-stats/dev/1667654922373-2022-11-05T13:28:42.373Z/privateAPI.zip"
+          "S3Key": "serverless/energy-stats/dev/1667658854764-2022-11-05T14:34:14.764Z/privateAPI.zip"
         },
         "Handler": "backend/auth/private.handler",
         "Runtime": "nodejs16.x",
@@ -300,14 +300,14 @@
         "CodeSha256": "s7U6cdf03cTX7eYzrrXplfP+IkgI1nHyejqM6CrCevI="
       }
     },
-    "SignupUserLambdaVersionEXYWzXffHYjJ3bieEu26sCUjwBPfDo2ovkoh5saM": {
+    "SignupUserLambdaVersion32WGYfI0BjHcZ6DV0gtS4sqszyvbxO31jSjVblc": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "SignupUserLambdaFunction"
         },
-        "CodeSha256": "ThiEoQzQFqanZGuqy3uumlBbEhHzhg7hlrxozTL9I+Y="
+        "CodeSha256": "Fj6ILWhKlhGGParic/pQ+Xwh022kewMBve5hnDvXUc8="
       }
     },
     "ApiGatewayRestApi": {
@@ -667,7 +667,7 @@
         ]
       }
     },
-    "ApiGatewayDeployment1667654896558": {
+    "ApiGatewayDeployment1667658828730": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
@@ -931,7 +931,7 @@
     "SignupUserLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "SignupUserLambdaVersionEXYWzXffHYjJ3bieEu26sCUjwBPfDo2ovkoh5saM"
+        "Ref": "SignupUserLambdaVersion32WGYfI0BjHcZ6DV0gtS4sqszyvbxO31jSjVblc"
       },
       "Export": {
         "Name": "sls-energy-stats-dev-SignupUserLambdaFunctionQualifiedArn"

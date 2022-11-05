@@ -10,28 +10,30 @@ import {
   Grid,
   TextField,
   Typography,
-  Link as LinkMui
+  Link as LinkMui,
 } from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import Copyright from "../components/Copyright";
 
-const Copyright = (props: any) => {
-    return (
-        <Typography variant="body2" color="text.secondary" align="center" {...props}>
-            {'Copyright ©'} Energy-Stats {new Date().getFullYear()}
-        </Typography>
-    )
-}
+const baseUrl = "https://3qwfx5k0o4.execute-api.us-east-1.amazonaws.com/dev"
 
 const theme = createTheme();
 
 const signup = () => {
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
+    const email = data.get("email");
+    const password = data.get("password");
+    const givenName = data.get("firstName");
+    const familyName = data.get("lastName");
+    const result = await axios.post(`${baseUrl}/user/signup`, {
+      email,
+      password,
+      givenName,
+      familyName,
     });
   };
   return (
@@ -78,7 +80,6 @@ const signup = () => {
                   fullWidth
                   id="lastName"
                   label="Last Name"
-                  autoFocus
                 />
               </Grid>
               <Grid item xs={12}>
@@ -120,11 +121,13 @@ const signup = () => {
               Sign Up
             </Button>
             <Grid container justifyContent="flex-end">
-                <Grid item>
-                    <Link to="/login">
-                        <LinkMui variant="body2">Already have an account? Sign in</LinkMui>
-                    </Link>
-                </Grid>
+              <Grid item>
+                <Link to="/login">
+                  <LinkMui variant="body2">
+                    Already have an account? Sign in
+                  </LinkMui>
+                </Link>
+              </Grid>
             </Grid>
           </Box>
         </Box>
