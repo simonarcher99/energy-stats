@@ -1,2 +1,4 @@
-Create CD pipeline to deploy to S3
-Create homepage where you can enter apiKey and meterNumber
+Create signup page frontend
+Create api gateway
+Create signup route on api gateway
+Create lambda that stores account info when signup route on api is hit
