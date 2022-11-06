@@ -17,32 +17,34 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Copyright from "../components/Copyright";
-import { useState } from "react";
-
-const baseUrl = "https://3qwfx5k0o4.execute-api.us-east-1.amazonaws.com/dev";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState, useAppDispatch } from "../app/store";
+import { registerUser } from "../features/user/userActions";
 
 const theme = createTheme();
 
 const Signup = () => {
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const { loading, error, userInfo, success } = useSelector(
+    (state: RootState) => state.user
+  );
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (success) navigate("/login");
+    // if (userInfo) navigate("/");
+  }, [navigate, userInfo, success]);
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    // TODO: add confirm password field and check password and confirm password match
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    const email = data.get("email");
-    const password = data.get("password");
-    const givenName = data.get("firstName");
-    const familyName = data.get("lastName");
-    setIsLoading(true)
-    const result = await axios.post(`${baseUrl}/user/signup`, {
-      email,
-      password,
-      givenName,
-      familyName,
-    });
-    setIsLoading(false)
-    navigate("/login")
-    console.log(result.data)
+    const email = data.get("email") as string;
+    const password = data.get("password") as string;
+    const givenName = data.get("firstName") as string;
+    const familyName = data.get("lastName") as string;
+    dispatch(registerUser({ email, password, givenName, familyName }));
   };
   return (
     <ThemeProvider theme={theme}>
@@ -124,9 +126,9 @@ const Signup = () => {
               type="submit"
               fullWidth
               variant="contained"
-              sx={{ mt: 3, mb: 2, height: "3rem"}}
+              sx={{ mt: 3, mb: 2, height: "3rem" }}
             >
-              {isLoading ? <CircularProgress color="inherit" /> : "Sign Up"}
+              {loading ? <CircularProgress color="inherit" /> : "Sign Up"}
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>

@@ -1,5 +1,6 @@
+Add logout button to homepage
+Redirect user to login page if user is logged out 
 Loading spinner bug if incorrect details
-Save access token in state
 Redirect to home page if an access token exists in state
 pass api gateway url from serverless to react
 Add error handling to axios calls
