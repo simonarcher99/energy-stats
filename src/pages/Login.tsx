@@ -24,7 +24,7 @@ import { useEffect } from "react";
 const theme = createTheme();
 
 const Login = () => {
-  const { loading, error, userToken } = useSelector(
+  const { loading, userToken } = useSelector(
     (state: RootState) => state.user
   );
   const dispatch = useAppDispatch();
@@ -32,7 +32,7 @@ const Login = () => {
 
   useEffect(() => {
     if (userToken) navigate("/");
-  }, [userToken]);
+  }, [userToken, navigate]);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();

@@ -15,17 +15,16 @@ import {
 } from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
 import Copyright from "../components/Copyright";
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
 import { RootState, useAppDispatch } from "../app/store";
 import { registerUser } from "../features/user/userActions";
 
 const theme = createTheme();
 
 const Signup = () => {
-  const { loading, error, userInfo, success } = useSelector(
+  const { loading, userInfo, success } = useSelector(
     (state: RootState) => state.user
   );
   const dispatch = useAppDispatch();

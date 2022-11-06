@@ -4,3 +4,4 @@ Loading spinner bug if incorrect details
 Redirect to home page if an access token exists in state
 pass api gateway url from serverless to react
 Add error handling to axios calls
+use esbuild instead of webpack so serverless uses less memory
