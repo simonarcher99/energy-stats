@@ -2,14 +2,25 @@ import "./App.css";
 import { Route, Routes } from "react-router-dom";
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
+import PrivateRoute from "./components/PrivateRoute";
+import Private from "./components/Private";
+import Homepage from "./pages/Homepage";
 
 function App() {
   return (
     <>
       <Routes>
-        <Route path="/" element={<h1>Homepage</h1>} />
+        <Route
+          path="/"
+          element={
+            <PrivateRoute>
+              <Homepage />
+            </PrivateRoute>
+          }
+        />
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
+        
       </Routes>
     </>
   );
