@@ -83,10 +83,16 @@
         "LogGroupName": "/aws/lambda/energy-stats-dev-signupUser"
       }
     },
-    "PrivateAPILogGroup": {
+    "AddMeterLogGroup": {
       "Type": "AWS::Logs::LogGroup",
       "Properties": {
-        "LogGroupName": "/aws/lambda/energy-stats-dev-privateAPI"
+        "LogGroupName": "/aws/lambda/energy-stats-dev-addMeter"
+      }
+    },
+    "GetMetersLogGroup": {
+      "Type": "AWS::Logs::LogGroup",
+      "Properties": {
+        "LogGroupName": "/aws/lambda/energy-stats-dev-getMeters"
       }
     },
     "IamRoleLambdaExecution": {
@@ -154,6 +160,15 @@
                     "cognito-idp:AdminSetUserPassword"
                   ],
                   "Resource": "*"
+                },
+                {
+                  "Effect": "Allow",
+                  "Action": [
+                    "dynamodb:PutItem",
+                    "dynamodb:Query",
+                    "dynamodb:GetItem"
+                  ],
+                  "Resource": "*"
                 }
               ]
             }
@@ -182,7 +197,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/energy-stats/dev/1667658854764-2022-11-05T14:34:14.764Z/loginUser.zip"
+          "S3Key": "serverless/energy-stats/dev/1667858892564-2022-11-07T22:08:12.564Z/loginUser.zip"
         },
         "Handler": "backend/auth/login.handler",
         "Runtime": "nodejs16.x",
@@ -196,6 +211,9 @@
             },
             "client_id": {
               "Ref": "UserClient"
+            },
+            "meter_table": {
+              "Ref": "meterTable"
             }
           }
         },
@@ -217,7 +235,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/energy-stats/dev/1667658854764-2022-11-05T14:34:14.764Z/signupUser.zip"
+          "S3Key": "serverless/energy-stats/dev/1667858892564-2022-11-07T22:08:12.564Z/signupUser.zip"
         },
         "Handler": "backend/auth/signup.handler",
         "Runtime": "nodejs16.x",
@@ -231,6 +249,9 @@
             },
             "client_id": {
               "Ref": "UserClient"
+            },
+            "meter_table": {
+              "Ref": "meterTable"
             }
           }
         },
@@ -245,18 +266,18 @@
         "SignupUserLogGroup"
       ]
     },
-    "PrivateAPILambdaFunction": {
+    "AddMeterLambdaFunction": {
       "Type": "AWS::Lambda::Function",
       "Properties": {
         "Code": {
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/energy-stats/dev/1667658854764-2022-11-05T14:34:14.764Z/privateAPI.zip"
+          "S3Key": "serverless/energy-stats/dev/1667858892564-2022-11-07T22:08:12.564Z/addMeter.zip"
         },
-        "Handler": "backend/auth/private.handler",
+        "Handler": "backend/meters/addMeter.handler",
         "Runtime": "nodejs16.x",
-        "FunctionName": "energy-stats-dev-privateAPI",
+        "FunctionName": "energy-stats-dev-addMeter",
         "MemorySize": 1024,
         "Timeout": 6,
         "Environment": {
@@ -266,6 +287,9 @@
             },
             "client_id": {
               "Ref": "UserClient"
+            },
+            "meter_table": {
+              "Ref": "meterTable"
             }
           }
         },
@@ -277,20 +301,78 @@
         }
       },
       "DependsOn": [
-        "PrivateAPILogGroup"
+        "AddMeterLogGroup"
       ]
     },
-    "PrivateAPILambdaVersionZQz60VO7rv8vdZPJ0wD76EabJmGXGs0Uu1bhN6p49M": {
+    "GetMetersLambdaFunction": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Code": {
+          "S3Bucket": {
+            "Ref": "ServerlessDeploymentBucket"
+          },
+          "S3Key": "serverless/energy-stats/dev/1667858892564-2022-11-07T22:08:12.564Z/getMeters.zip"
+        },
+        "Handler": "backend/meters/getMeters.handler",
+        "Runtime": "nodejs16.x",
+        "FunctionName": "energy-stats-dev-getMeters",
+        "MemorySize": 1024,
+        "Timeout": 6,
+        "Environment": {
+          "Variables": {
+            "user_pool_id": {
+              "Ref": "UserPool"
+            },
+            "client_id": {
+              "Ref": "UserClient"
+            },
+            "meter_table": {
+              "Ref": "meterTable"
+            }
+          }
+        },
+        "Role": {
+          "Fn::GetAtt": [
+            "IamRoleLambdaExecution",
+            "Arn"
+          ]
+        }
+      },
+      "DependsOn": [
+        "GetMetersLogGroup"
+      ]
+    },
+    "GetMetersLambdaVersionc2rjlTD85DTDM3uIR214CfFf7t0zdu2izwLiF8to": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
-          "Ref": "PrivateAPILambdaFunction"
+          "Ref": "GetMetersLambdaFunction"
         },
-        "CodeSha256": "xBU0SJ6uXhLypq+NkL8LS7GpKTa0hm+iRLyR64JMXEU="
+        "CodeSha256": "RH7CA5mQwEFuvZkJLj6V2Xjai5z3M/xRbPpYgLo4skA="
       }
     },
-    "LoginUserLambdaVersion0emDLVWzTXjdhGhciVf1COPItWsIFjUGQAb5fXt5Bk": {
+    "AddMeterLambdaVersionN78f7x39ybD6Ny8nKBYkA6L89YN6fKezpiRBvYidzk": {
+      "Type": "AWS::Lambda::Version",
+      "DeletionPolicy": "Retain",
+      "Properties": {
+        "FunctionName": {
+          "Ref": "AddMeterLambdaFunction"
+        },
+        "CodeSha256": "emf/iinGzOUrAbRymhfd36lCy0LaPJmOPhCDCmJenm0="
+      }
+    },
+    "SignupUserLambdaVersion3QR09RGayiJ62KaK2tFuLYdXcbmUMzoFBEMmoxtAT0": {
+      "Type": "AWS::Lambda::Version",
+      "DeletionPolicy": "Retain",
+      "Properties": {
+        "FunctionName": {
+          "Ref": "SignupUserLambdaFunction"
+        },
+        "CodeSha256": "KCL6dGHPFXEf6edQhx5GdGVQSLGRGBjly3imorWEPYY="
+      }
+    },
+    "LoginUserLambdaVersionqT79ub0QuzyTOhfOqe2F3s15kysKOqq2h1kVxfw0": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
@@ -298,16 +380,6 @@
           "Ref": "LoginUserLambdaFunction"
         },
         "CodeSha256": "s7U6cdf03cTX7eYzrrXplfP+IkgI1nHyejqM6CrCevI="
-      }
-    },
-    "SignupUserLambdaVersion32WGYfI0BjHcZ6DV0gtS4sqszyvbxO31jSjVblc": {
-      "Type": "AWS::Lambda::Version",
-      "DeletionPolicy": "Retain",
-      "Properties": {
-        "FunctionName": {
-          "Ref": "SignupUserLambdaFunction"
-        },
-        "CodeSha256": "Fj6ILWhKlhGGParic/pQ+Xwh022kewMBve5hnDvXUc8="
       }
     },
     "ApiGatewayRestApi": {
@@ -361,13 +433,40 @@
         }
       }
     },
-    "ApiGatewayResourceUserPrivate": {
+    "ApiGatewayResourceMeters": {
       "Type": "AWS::ApiGateway::Resource",
       "Properties": {
         "ParentId": {
-          "Ref": "ApiGatewayResourceUser"
+          "Fn::GetAtt": [
+            "ApiGatewayRestApi",
+            "RootResourceId"
+          ]
         },
-        "PathPart": "private",
+        "PathPart": "meters",
+        "RestApiId": {
+          "Ref": "ApiGatewayRestApi"
+        }
+      }
+    },
+    "ApiGatewayResourceMetersAddDashmeter": {
+      "Type": "AWS::ApiGateway::Resource",
+      "Properties": {
+        "ParentId": {
+          "Ref": "ApiGatewayResourceMeters"
+        },
+        "PathPart": "add-meter",
+        "RestApiId": {
+          "Ref": "ApiGatewayRestApi"
+        }
+      }
+    },
+    "ApiGatewayResourceMetersGetDashmeters": {
+      "Type": "AWS::ApiGateway::Resource",
+      "Properties": {
+        "ParentId": {
+          "Ref": "ApiGatewayResourceMeters"
+        },
+        "PathPart": "get-meters",
         "RestApiId": {
           "Ref": "ApiGatewayRestApi"
         }
@@ -463,7 +562,7 @@
         }
       }
     },
-    "ApiGatewayMethodUserPrivateOptions": {
+    "ApiGatewayMethodMetersAddDashmeterOptions": {
       "Type": "AWS::ApiGateway::Method",
       "Properties": {
         "AuthorizationType": "NONE",
@@ -501,7 +600,52 @@
           ]
         },
         "ResourceId": {
-          "Ref": "ApiGatewayResourceUserPrivate"
+          "Ref": "ApiGatewayResourceMetersAddDashmeter"
+        },
+        "RestApiId": {
+          "Ref": "ApiGatewayRestApi"
+        }
+      }
+    },
+    "ApiGatewayMethodMetersGetDashmetersOptions": {
+      "Type": "AWS::ApiGateway::Method",
+      "Properties": {
+        "AuthorizationType": "NONE",
+        "HttpMethod": "OPTIONS",
+        "MethodResponses": [
+          {
+            "StatusCode": "200",
+            "ResponseParameters": {
+              "method.response.header.Access-Control-Allow-Origin": true,
+              "method.response.header.Access-Control-Allow-Headers": true,
+              "method.response.header.Access-Control-Allow-Methods": true
+            },
+            "ResponseModels": {}
+          }
+        ],
+        "RequestParameters": {},
+        "Integration": {
+          "Type": "MOCK",
+          "RequestTemplates": {
+            "application/json": "{statusCode:200}"
+          },
+          "ContentHandling": "CONVERT_TO_TEXT",
+          "IntegrationResponses": [
+            {
+              "StatusCode": "200",
+              "ResponseParameters": {
+                "method.response.header.Access-Control-Allow-Origin": "'*'",
+                "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent,X-Amzn-Trace-Id'",
+                "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET'"
+              },
+              "ResponseTemplates": {
+                "application/json": ""
+              }
+            }
+          ]
+        },
+        "ResourceId": {
+          "Ref": "ApiGatewayResourceMetersGetDashmeters"
         },
         "RestApiId": {
           "Ref": "ApiGatewayRestApi"
@@ -600,22 +744,19 @@
         "SignupUserLambdaPermissionApiGateway"
       ]
     },
-    "ApiGatewayMethodUserPrivatePost": {
+    "ApiGatewayMethodMetersAddDashmeterPost": {
       "Type": "AWS::ApiGateway::Method",
       "Properties": {
         "HttpMethod": "POST",
         "RequestParameters": {},
         "ResourceId": {
-          "Ref": "ApiGatewayResourceUserPrivate"
+          "Ref": "ApiGatewayResourceMetersAddDashmeter"
         },
         "RestApiId": {
           "Ref": "ApiGatewayRestApi"
         },
         "ApiKeyRequired": false,
-        "AuthorizationType": "COGNITO_USER_POOLS",
-        "AuthorizerId": {
-          "Ref": "PrivateAuthorizerApiGatewayAuthorizer"
-        },
+        "AuthorizationType": "NONE",
         "Integration": {
           "IntegrationHttpMethod": "POST",
           "Type": "AWS_PROXY",
@@ -634,7 +775,7 @@
                 ":lambda:path/2015-03-31/functions/",
                 {
                   "Fn::GetAtt": [
-                    "PrivateAPILambdaFunction",
+                    "AddMeterLambdaFunction",
                     "Arn"
                   ]
                 },
@@ -645,29 +786,57 @@
         },
         "MethodResponses": []
       },
-      "DependsOn": "PrivateAuthorizerApiGatewayAuthorizer"
+      "DependsOn": [
+        "AddMeterLambdaPermissionApiGateway"
+      ]
     },
-    "PrivateAuthorizerApiGatewayAuthorizer": {
-      "Type": "AWS::ApiGateway::Authorizer",
+    "ApiGatewayMethodMetersGetDashmetersGet": {
+      "Type": "AWS::ApiGateway::Method",
       "Properties": {
-        "AuthorizerResultTtlInSeconds": 300,
-        "IdentitySource": "method.request.header.Authorization",
-        "Name": "PrivateAuthorizer",
+        "HttpMethod": "GET",
+        "RequestParameters": {},
+        "ResourceId": {
+          "Ref": "ApiGatewayResourceMetersGetDashmeters"
+        },
         "RestApiId": {
           "Ref": "ApiGatewayRestApi"
         },
-        "Type": "COGNITO_USER_POOLS",
-        "ProviderARNs": [
-          {
-            "Fn::GetAtt": [
-              "UserPool",
-              "Arn"
+        "ApiKeyRequired": false,
+        "AuthorizationType": "NONE",
+        "Integration": {
+          "IntegrationHttpMethod": "POST",
+          "Type": "AWS_PROXY",
+          "Uri": {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition"
+                },
+                ":apigateway:",
+                {
+                  "Ref": "AWS::Region"
+                },
+                ":lambda:path/2015-03-31/functions/",
+                {
+                  "Fn::GetAtt": [
+                    "GetMetersLambdaFunction",
+                    "Arn"
+                  ]
+                },
+                "/invocations"
+              ]
             ]
           }
-        ]
-      }
+        },
+        "MethodResponses": []
+      },
+      "DependsOn": [
+        "GetMetersLambdaPermissionApiGateway"
+      ]
     },
-    "ApiGatewayDeployment1667658828730": {
+    "ApiGatewayDeployment1667858842544": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
@@ -678,10 +847,12 @@
       "DependsOn": [
         "ApiGatewayMethodUserLoginOptions",
         "ApiGatewayMethodUserSignupOptions",
-        "ApiGatewayMethodUserPrivateOptions",
+        "ApiGatewayMethodMetersAddDashmeterOptions",
+        "ApiGatewayMethodMetersGetDashmetersOptions",
         "ApiGatewayMethodUserLoginPost",
         "ApiGatewayMethodUserSignupPost",
-        "ApiGatewayMethodUserPrivatePost"
+        "ApiGatewayMethodMetersAddDashmeterPost",
+        "ApiGatewayMethodMetersGetDashmetersGet"
       ]
     },
     "LoginUserLambdaPermissionApiGateway": {
@@ -758,12 +929,49 @@
         }
       }
     },
-    "PrivateAPILambdaPermissionApiGateway": {
+    "AddMeterLambdaPermissionApiGateway": {
       "Type": "AWS::Lambda::Permission",
       "Properties": {
         "FunctionName": {
           "Fn::GetAtt": [
-            "PrivateAPILambdaFunction",
+            "AddMeterLambdaFunction",
+            "Arn"
+          ]
+        },
+        "Action": "lambda:InvokeFunction",
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": {
+          "Fn::Join": [
+            "",
+            [
+              "arn:",
+              {
+                "Ref": "AWS::Partition"
+              },
+              ":execute-api:",
+              {
+                "Ref": "AWS::Region"
+              },
+              ":",
+              {
+                "Ref": "AWS::AccountId"
+              },
+              ":",
+              {
+                "Ref": "ApiGatewayRestApi"
+              },
+              "/*/*"
+            ]
+          ]
+        }
+      }
+    },
+    "GetMetersLambdaPermissionApiGateway": {
+      "Type": "AWS::Lambda::Permission",
+      "Properties": {
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "GetMetersLambdaFunction",
             "Arn"
           ]
         },
@@ -899,6 +1107,33 @@
           }
         ]
       }
+    },
+    "meterTable": {
+      "Type": "AWS::DynamoDB::Table",
+      "Properties": {
+        "TableName": "energy-stats-meterTable",
+        "AttributeDefinitions": [
+          {
+            "AttributeName": "userId",
+            "AttributeType": "S"
+          },
+          {
+            "AttributeName": "meterSerialNumber",
+            "AttributeType": "S"
+          }
+        ],
+        "KeySchema": [
+          {
+            "AttributeName": "userId",
+            "KeyType": "HASH"
+          },
+          {
+            "AttributeName": "meterSerialNumber",
+            "KeyType": "RANGE"
+          }
+        ],
+        "BillingMode": "PAY_PER_REQUEST"
+      }
     }
   },
   "Outputs": {
@@ -910,31 +1145,40 @@
         "Name": "sls-energy-stats-dev-ServerlessDeploymentBucketName"
       }
     },
-    "PrivateAPILambdaFunctionQualifiedArn": {
+    "GetMetersLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "PrivateAPILambdaVersionZQz60VO7rv8vdZPJ0wD76EabJmGXGs0Uu1bhN6p49M"
+        "Ref": "GetMetersLambdaVersionc2rjlTD85DTDM3uIR214CfFf7t0zdu2izwLiF8to"
       },
       "Export": {
-        "Name": "sls-energy-stats-dev-PrivateAPILambdaFunctionQualifiedArn"
+        "Name": "sls-energy-stats-dev-GetMetersLambdaFunctionQualifiedArn"
       }
     },
-    "LoginUserLambdaFunctionQualifiedArn": {
+    "AddMeterLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "LoginUserLambdaVersion0emDLVWzTXjdhGhciVf1COPItWsIFjUGQAb5fXt5Bk"
+        "Ref": "AddMeterLambdaVersionN78f7x39ybD6Ny8nKBYkA6L89YN6fKezpiRBvYidzk"
       },
       "Export": {
-        "Name": "sls-energy-stats-dev-LoginUserLambdaFunctionQualifiedArn"
+        "Name": "sls-energy-stats-dev-AddMeterLambdaFunctionQualifiedArn"
       }
     },
     "SignupUserLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "SignupUserLambdaVersion32WGYfI0BjHcZ6DV0gtS4sqszyvbxO31jSjVblc"
+        "Ref": "SignupUserLambdaVersion3QR09RGayiJ62KaK2tFuLYdXcbmUMzoFBEMmoxtAT0"
       },
       "Export": {
         "Name": "sls-energy-stats-dev-SignupUserLambdaFunctionQualifiedArn"
+      }
+    },
+    "LoginUserLambdaFunctionQualifiedArn": {
+      "Description": "Current Lambda function version",
+      "Value": {
+        "Ref": "LoginUserLambdaVersionqT79ub0QuzyTOhfOqe2F3s15kysKOqq2h1kVxfw0"
+      },
+      "Export": {
+        "Name": "sls-energy-stats-dev-LoginUserLambdaFunctionQualifiedArn"
       }
     },
     "ServiceEndpoint": {

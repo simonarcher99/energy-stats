@@ -8,12 +8,19 @@ provider:
   environment:
     user_pool_id: { Ref: UserPool }
     client_id: { Ref: UserClient }
+    meter_table: { Ref: meterTable}
   iamRoleStatements:
     - Effect: Allow
       Action:
         - cognito-idp:AdminInitiateAuth
         - cognito-idp:AdminCreateUser
         - cognito-idp:AdminSetUserPassword
+      Resource: "*"
+    - Effect: Allow
+      Action:
+        - dynamodb:PutItem
+        - dynamodb:Query
+        - dynamodb:GetItem
       Resource: "*"
   
 
@@ -51,23 +58,23 @@ functions:
           path: user/signup
           method: post
           cors: true
-  privateAPI:
-    handler: backend/auth/private.handler
+  addMeter:
+    handler: backend/meters/addMeter.handler
     events:
       - http:
-          path: user/private
+          path: meters/add-meter
           method: post
           cors: true
-          authorizer:
-            name: PrivateAuthorizer
-            type: COGNITO_USER_POOLS
-            arn:
-              Fn::GetAtt:
-                - UserPool
-                - Arn
-            claims:
-              - email
+  getMeters:
+    handler: backend/meters/getMeters.handler
+    events:
+      - http:
+          path: meters/get-meters
+          method: get
+          cors: true
+  
 
 resources:
   - ${file(./serverless/backend/userPool.yml)}
   - ${file(./serverless/frontend/s3Website.yml)}
+  - ${file(./serverless/backend/meterTable.yml)}
