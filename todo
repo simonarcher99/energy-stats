@@ -2,6 +2,7 @@ Add email authentication to signup
 pass api gateway url from serverless to react
 use esbuild instead of webpack so serverless uses less memory
 Create nav bar that has logout button in it
+remove .serverless from git
 
 backend:
     add authenticattion to addMeter and getMeters endpoint
