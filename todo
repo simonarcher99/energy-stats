@@ -1,5 +1,23 @@
-Loading spinner bug if incorrect details
-Redirect to home page if an access token exists in state
+Add email authentication to signup
 pass api gateway url from serverless to react
-Add error handling to axios calls
 use esbuild instead of webpack so serverless uses less memory
+Create nav bar that has logout button in it
+
+backend:
+    create dynamo table
+    create lambda triggered by /add-meter endpoint:
+        triggered by /add-meter
+        saves meter details to dynamoDb table
+    create /get-meters endpoint:
+        returns all meters in dynamodb for currently authenticated user
+
+Homepage
+Add form to add a octopus meter
+form needs following field:
+    meter serial number
+    API key
+    gas/electric
+    mpan/mprn
+    display name
+    postcode
+    account number

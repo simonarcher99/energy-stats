@@ -2,6 +2,7 @@ import { Box, Button, Container, CssBaseline } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useAppDispatch } from "../app/store";
 import { logout } from "../features/user/userSlice";
+import { NewMeter } from "../components/NewMeter";
 
 const theme = createTheme();
 
@@ -23,7 +24,7 @@ const Homepage = () => {
           }}
         >
           <Button onClick={handleLogout}>Logout</Button>
-          <Button>Add Meter</Button>
+          <NewMeter/>
         </Box>
       </Container>
     </ThemeProvider>
