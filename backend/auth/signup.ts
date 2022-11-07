@@ -68,6 +68,6 @@ export const handler = async (event: any) => {
     }
     return sendResponse(200, { message: "User registraion succesful" });
   } catch (error) {
-    sendResponse(500, error);
+    return sendResponse(500, error);
   }
 };

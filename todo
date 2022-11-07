@@ -4,20 +4,10 @@ use esbuild instead of webpack so serverless uses less memory
 Create nav bar that has logout button in it
 
 backend:
-    create dynamo table
-    create lambda triggered by /add-meter endpoint:
-        triggered by /add-meter
-        saves meter details to dynamoDb table
-    create /get-meters endpoint:
-        returns all meters in dynamodb for currently authenticated user
+    add authenticattion to addMeter and getMeters endpoint
 
-Homepage
-Add form to add a octopus meter
-form needs following field:
-    meter serial number
-    API key
-    gas/electric
-    mpan/mprn
-    display name
-    postcode
-    account number
+frontend:
+    Add meters to redux store
+    Add actions to add meter and get meters
+    Add meter when form is submitted
+    Retrieve meters for currently authenticated user on homepage

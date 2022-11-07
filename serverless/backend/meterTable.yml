@@ -1,0 +1,18 @@
+---
+Resources:
+  meterTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: energy-stats-meterTable
+      AttributeDefinitions:
+        - AttributeName: userId
+          AttributeType: S
+        - AttributeName: meterSerialNumber
+          AttributeType: S
+      KeySchema:
+        - AttributeName: userId
+          KeyType: HASH
+        - AttributeName: meterSerialNumber
+          KeyType: RANGE
+      BillingMode: PAY_PER_REQUEST
+      
