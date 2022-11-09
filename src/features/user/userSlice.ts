@@ -40,6 +40,7 @@ const userSlice = createSlice({
       state.loading = false;
       state.userInfo = payload;
       state.userToken = payload.token;
+      state.success = true
     });
     builder.addCase(loginUser.rejected, (state, { payload }) => {
       state.loading = false;

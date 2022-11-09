@@ -2,6 +2,7 @@ import {
   Avatar,
   Box,
   Button,
+  CircularProgress,
   Container,
   CssBaseline,
   FormControl,
@@ -19,11 +20,19 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import ElectricMeterIcon from "@mui/icons-material/ElectricMeter";
 import GasMeterIcon from "@mui/icons-material/GasMeter";
 import { useState } from "react";
+import { addMeter } from "../features/meters/metersActions";
+import { RootState, useAppDispatch } from "../app/store";
+import { useSelector } from "react-redux";
 
 const theme = createTheme();
 
 export const NewMeter = () => {
+  const { loading } = useSelector(
+    (state: RootState) => state.meters
+  );
   const [retailer, setRetailer] = useState("");
+
+  const dispatch = useAppDispatch();
 
   const handleChange = (event: SelectChangeEvent) => {
     setRetailer(event.target.value as string);
@@ -31,14 +40,32 @@ export const NewMeter = () => {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget)
-    const retailer = data.get("retailer")
-    const gasOrElectric = data.get("electric") ? "electric" : "gas"
-    const meterName = data.get("meterName")
-    const meterSerialNumber = data.get("meterSerialNumber")
-    const mpxn = data.get("mpxn")
-    const apiKey = data.get("apiKey")
-    console.log(retailer, gasOrElectric, meterName, meterSerialNumber, mpxn, apiKey)
+    const data = new FormData(event.currentTarget);
+    const retailer = data.get("retailer") as string;
+    const gasOrElectric = data.get("electric") ? "electric" : ("gas" as string);
+    const meterName = data.get("meterName") as string;
+    const meterSerialNumber = data.get("meterSerialNumber") as string;
+    const mpxn = data.get("mpxn") as string;
+    const apiKey = data.get("apiKey") as string;
+    console.log(
+      retailer,
+      gasOrElectric,
+      meterName,
+      meterSerialNumber,
+      mpxn,
+      apiKey
+    );
+    dispatch(
+      addMeter({
+        retailer,
+        gasOrElectric,
+        meterName,
+        meterSerialNumber,
+        mpxn,
+        apiKey,
+        userId: "testId",
+      })
+    );
   };
   return (
     <ThemeProvider theme={theme}>
@@ -96,7 +123,7 @@ export const NewMeter = () => {
                     <Grid container spacing={2}>
                       <Grid item xs={6}>
                         <FormControlLabel
-                            name="electric"
+                          name="electric"
                           value="electric"
                           control={<Radio />}
                           label="Electric"
@@ -104,7 +131,7 @@ export const NewMeter = () => {
                       </Grid>
                       <Grid item xs={6}>
                         <FormControlLabel
-                        name = "gas"
+                          name="gas"
                           value="gas"
                           control={<Radio />}
                           label="Gas"
@@ -157,7 +184,7 @@ export const NewMeter = () => {
               variant="contained"
               sx={{ mt: 3, mb: 2, height: "3rem" }}
             >
-              Add Meter
+              {loading ? <CircularProgress color="inherit"/> : "Add Meter"}
             </Button>
           </Box>
         </Box>

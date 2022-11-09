@@ -8,7 +8,5 @@ backend:
     add authenticattion to addMeter and getMeters endpoint
 
 frontend:
-    Add meters to redux store
-    Add actions to add meter and get meters
-    Add meter when form is submitted
-    Retrieve meters for currently authenticated user on homepage
+    Clear meter data when user logs out
+    Create component to display meter

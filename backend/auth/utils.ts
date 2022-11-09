@@ -4,8 +4,8 @@ export const sendResponse = (statusCode: number, body: any) => {
     body: JSON.stringify(body),
     headers: {
       "Content-Type": "application/json",
-      "Access-Control-Allow-origin": "*",
-      "Access-Control=Allow-Credentials": true,
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Credentials": true,
     },
   };
 

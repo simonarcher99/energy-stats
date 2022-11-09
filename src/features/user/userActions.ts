@@ -3,7 +3,6 @@ import axios from "axios";
 
 const baseUrl = "https://3qwfx5k0o4.execute-api.us-east-1.amazonaws.com/dev";
 
-
 type LoginData = {
   email: string;
   password: string;

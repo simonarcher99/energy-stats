@@ -228,7 +228,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/energy-stats/dev/1667858892564-2022-11-07T22:08:12.564Z/loginUser.zip"
+                "S3Key": "serverless/energy-stats/dev/1667948841244-2022-11-08T23:07:21.244Z/loginUser.zip"
               },
               "Handler": "backend/auth/login.handler",
               "Runtime": "nodejs16.x",
@@ -266,7 +266,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/energy-stats/dev/1667858892564-2022-11-07T22:08:12.564Z/signupUser.zip"
+                "S3Key": "serverless/energy-stats/dev/1667948841244-2022-11-08T23:07:21.244Z/signupUser.zip"
               },
               "Handler": "backend/auth/signup.handler",
               "Runtime": "nodejs16.x",
@@ -304,7 +304,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/energy-stats/dev/1667858892564-2022-11-07T22:08:12.564Z/addMeter.zip"
+                "S3Key": "serverless/energy-stats/dev/1667948841244-2022-11-08T23:07:21.244Z/addMeter.zip"
               },
               "Handler": "backend/meters/addMeter.handler",
               "Runtime": "nodejs16.x",
@@ -342,7 +342,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/energy-stats/dev/1667858892564-2022-11-07T22:08:12.564Z/getMeters.zip"
+                "S3Key": "serverless/energy-stats/dev/1667948841244-2022-11-08T23:07:21.244Z/getMeters.zip"
               },
               "Handler": "backend/meters/getMeters.handler",
               "Runtime": "nodejs16.x",
@@ -373,44 +373,44 @@
               "GetMetersLogGroup"
             ]
           },
-          "GetMetersLambdaVersionc2rjlTD85DTDM3uIR214CfFf7t0zdu2izwLiF8to": {
-            "Type": "AWS::Lambda::Version",
-            "DeletionPolicy": "Retain",
-            "Properties": {
-              "FunctionName": {
-                "Ref": "GetMetersLambdaFunction"
-              },
-              "CodeSha256": "RH7CA5mQwEFuvZkJLj6V2Xjai5z3M/xRbPpYgLo4skA="
-            }
-          },
-          "AddMeterLambdaVersionN78f7x39ybD6Ny8nKBYkA6L89YN6fKezpiRBvYidzk": {
+          "AddMeterLambdaVersiongacKjh1K3kcRvY59fbi5m8mnvjobFTvdZoa4fMQ": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "AddMeterLambdaFunction"
               },
-              "CodeSha256": "emf/iinGzOUrAbRymhfd36lCy0LaPJmOPhCDCmJenm0="
+              "CodeSha256": "7i0oJeYpUo5pDPmu1TSWNZNzDKR2aGAi8L75+9P/2T0="
             }
           },
-          "SignupUserLambdaVersion3QR09RGayiJ62KaK2tFuLYdXcbmUMzoFBEMmoxtAT0": {
+          "GetMetersLambdaVersionnsRbMLtd97S1CF3k4Wz6Xt3WcbagzgZmetUjuUlBQEA": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
-                "Ref": "SignupUserLambdaFunction"
+                "Ref": "GetMetersLambdaFunction"
               },
-              "CodeSha256": "KCL6dGHPFXEf6edQhx5GdGVQSLGRGBjly3imorWEPYY="
+              "CodeSha256": "ieY/0rW0felUmIJj68ysMeGGK3FDntA9FDWRCHPYXSo="
             }
           },
-          "LoginUserLambdaVersionqT79ub0QuzyTOhfOqe2F3s15kysKOqq2h1kVxfw0": {
+          "LoginUserLambdaVersionW9MTX7U4q2rTL6owGXv5JTpnuNszm6HxV3tzZZ1iU": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "LoginUserLambdaFunction"
               },
-              "CodeSha256": "s7U6cdf03cTX7eYzrrXplfP+IkgI1nHyejqM6CrCevI="
+              "CodeSha256": "BmCBTMO38HuxQTgAHQyMQ8JXISeFiGCpudsOE+0gcTs="
+            }
+          },
+          "SignupUserLambdaVersionMRf1kMFfKcn7ba5wRvjqYtLXHNA4l6udtWwKU39AXc": {
+            "Type": "AWS::Lambda::Version",
+            "DeletionPolicy": "Retain",
+            "Properties": {
+              "FunctionName": {
+                "Ref": "SignupUserLambdaFunction"
+              },
+              "CodeSha256": "v2j0EjFq3JmoimQiFrMNRJ3NY65DGVzTsgO+8ZpUHAA="
             }
           },
           "ApiGatewayRestApi": {
@@ -867,7 +867,7 @@
               "GetMetersLambdaPermissionApiGateway"
             ]
           },
-          "ApiGatewayDeployment1667858842544": {
+          "ApiGatewayDeployment1667948785567": {
             "Type": "AWS::ApiGateway::Deployment",
             "Properties": {
               "RestApiId": {
@@ -1176,40 +1176,40 @@
               "Name": "sls-energy-stats-dev-ServerlessDeploymentBucketName"
             }
           },
-          "GetMetersLambdaFunctionQualifiedArn": {
-            "Description": "Current Lambda function version",
-            "Value": {
-              "Ref": "GetMetersLambdaVersionc2rjlTD85DTDM3uIR214CfFf7t0zdu2izwLiF8to"
-            },
-            "Export": {
-              "Name": "sls-energy-stats-dev-GetMetersLambdaFunctionQualifiedArn"
-            }
-          },
           "AddMeterLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "AddMeterLambdaVersionN78f7x39ybD6Ny8nKBYkA6L89YN6fKezpiRBvYidzk"
+              "Ref": "AddMeterLambdaVersiongacKjh1K3kcRvY59fbi5m8mnvjobFTvdZoa4fMQ"
             },
             "Export": {
               "Name": "sls-energy-stats-dev-AddMeterLambdaFunctionQualifiedArn"
             }
           },
-          "SignupUserLambdaFunctionQualifiedArn": {
+          "GetMetersLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "SignupUserLambdaVersion3QR09RGayiJ62KaK2tFuLYdXcbmUMzoFBEMmoxtAT0"
+              "Ref": "GetMetersLambdaVersionnsRbMLtd97S1CF3k4Wz6Xt3WcbagzgZmetUjuUlBQEA"
             },
             "Export": {
-              "Name": "sls-energy-stats-dev-SignupUserLambdaFunctionQualifiedArn"
+              "Name": "sls-energy-stats-dev-GetMetersLambdaFunctionQualifiedArn"
             }
           },
           "LoginUserLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "LoginUserLambdaVersionqT79ub0QuzyTOhfOqe2F3s15kysKOqq2h1kVxfw0"
+              "Ref": "LoginUserLambdaVersionW9MTX7U4q2rTL6owGXv5JTpnuNszm6HxV3tzZZ1iU"
             },
             "Export": {
               "Name": "sls-energy-stats-dev-LoginUserLambdaFunctionQualifiedArn"
+            }
+          },
+          "SignupUserLambdaFunctionQualifiedArn": {
+            "Description": "Current Lambda function version",
+            "Value": {
+              "Ref": "SignupUserLambdaVersionMRf1kMFfKcn7ba5wRvjqYtLXHNA4l6udtWwKU39AXc"
+            },
+            "Export": {
+              "Name": "sls-energy-stats-dev-SignupUserLambdaFunctionQualifiedArn"
             }
           },
           "ServiceEndpoint": {
@@ -1380,7 +1380,7 @@
         "timeout": 6,
         "runtime": "nodejs16.x",
         "vpc": {},
-        "versionLogicalId": "LoginUserLambdaVersionqT79ub0QuzyTOhfOqe2F3s15kysKOqq2h1kVxfw0"
+        "versionLogicalId": "LoginUserLambdaVersionW9MTX7U4q2rTL6owGXv5JTpnuNszm6HxV3tzZZ1iU"
       },
       "signupUser": {
         "handler": "backend/auth/signup.handler",
@@ -1418,7 +1418,7 @@
         "timeout": 6,
         "runtime": "nodejs16.x",
         "vpc": {},
-        "versionLogicalId": "SignupUserLambdaVersion3QR09RGayiJ62KaK2tFuLYdXcbmUMzoFBEMmoxtAT0"
+        "versionLogicalId": "SignupUserLambdaVersionMRf1kMFfKcn7ba5wRvjqYtLXHNA4l6udtWwKU39AXc"
       },
       "addMeter": {
         "handler": "backend/meters/addMeter.handler",
@@ -1456,7 +1456,7 @@
         "timeout": 6,
         "runtime": "nodejs16.x",
         "vpc": {},
-        "versionLogicalId": "AddMeterLambdaVersionN78f7x39ybD6Ny8nKBYkA6L89YN6fKezpiRBvYidzk"
+        "versionLogicalId": "AddMeterLambdaVersiongacKjh1K3kcRvY59fbi5m8mnvjobFTvdZoa4fMQ"
       },
       "getMeters": {
         "handler": "backend/meters/getMeters.handler",
@@ -1494,7 +1494,7 @@
         "timeout": 6,
         "runtime": "nodejs16.x",
         "vpc": {},
-        "versionLogicalId": "GetMetersLambdaVersionc2rjlTD85DTDM3uIR214CfFf7t0zdu2izwLiF8to"
+        "versionLogicalId": "GetMetersLambdaVersionnsRbMLtd97S1CF3k4Wz6Xt3WcbagzgZmetUjuUlBQEA"
       }
     },
     "resources": {
@@ -1651,7 +1651,7 @@
       "package": {
         "individually": true,
         "artifactsS3KeyDirname": "serverless/energy-stats/dev/code-artifacts",
-        "artifactDirectoryName": "serverless/energy-stats/dev/1667858892564-2022-11-07T22:08:12.564Z"
+        "artifactDirectoryName": "serverless/energy-stats/dev/1667948841244-2022-11-08T23:07:21.244Z"
       },
       "functions": {
         "$ref": "$[\"service\"][\"functions\"]"
@@ -1665,7 +1665,7 @@
   },
   "package": {
     "individually": true,
-    "artifactDirectoryName": "serverless/energy-stats/dev/1667858892564-2022-11-07T22:08:12.564Z",
+    "artifactDirectoryName": "serverless/energy-stats/dev/1667948841244-2022-11-08T23:07:21.244Z",
     "artifact": ""
   }
 }
