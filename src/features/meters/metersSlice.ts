@@ -11,12 +11,14 @@ type MeterData = {
   mpxn: string;
 };
 
-const initialState: {
+type MetersState = {
   loading: boolean;
   meters: MeterData[];
   error: any;
   success: boolean;
-} = {
+} 
+
+const initialState: MetersState = {
   loading: false,
   meters: [],
   error: null,

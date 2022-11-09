@@ -5,13 +5,15 @@ const userToken = localStorage.getItem("userToken")
   ? localStorage.getItem("userToken")
   : null;
 
-const initialState: {
+type UserState = {
   loading: boolean;
   userInfo: any;
   userToken: string | null;
   error: any;
   success: boolean;
-} = {
+};
+
+const initialState: UserState = {
   loading: false,
   userInfo: {},
   userToken,
@@ -24,12 +26,12 @@ const userSlice = createSlice({
   initialState,
   reducers: {
     logout: (state) => {
-        localStorage.removeItem('userToken')
-        state.loading = false
-        state.userInfo = null
-        state.userToken = null
-        state.error = null
-      },
+      localStorage.removeItem("userToken");
+      state.loading = false;
+      state.userInfo = null;
+      state.userToken = null;
+      state.error = null;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(loginUser.pending, (state) => {
@@ -40,7 +42,7 @@ const userSlice = createSlice({
       state.loading = false;
       state.userInfo = payload;
       state.userToken = payload.token;
-      state.success = true
+      state.success = true;
     });
     builder.addCase(loginUser.rejected, (state, { payload }) => {
       state.loading = false;
@@ -63,4 +65,4 @@ const userSlice = createSlice({
 
 export default userSlice.reducer;
 
-export const { logout } = userSlice.actions
+export const { logout } = userSlice.actions;
