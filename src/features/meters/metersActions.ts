@@ -22,7 +22,7 @@ export const getMeters = createAsyncThunk(
   "meters/get",
   async (getMetersData: GetMeters, { rejectWithValue }) => {
     try {
-      const { userToken, userId } = getMetersData;
+      const { userId } = getMetersData;
       const config = {
         headers: {
           "Content-Type": "application/json",
@@ -63,7 +63,7 @@ export const addMeter = createAsyncThunk(
           "Content-Type": "application/json",
         },
       };
-      const { data } = await axios.post(
+      await axios.post(
         `${baseUrl}/meters/add-meter`,
         {
           userId,

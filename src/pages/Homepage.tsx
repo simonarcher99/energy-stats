@@ -14,7 +14,7 @@ const Homepage = () => {
   const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch(getMeters({ userId: "testUserId", userToken: "userToken" }));
-  }, []);
+  }, [dispatch]);
 
   const handleLogout = () => {
     dispatch(logout());
@@ -32,7 +32,7 @@ const Homepage = () => {
           }}
         >
           <Button onClick={handleLogout}>Logout</Button>
-          {meters.length == 0 && <NewMeter />}
+          {meters.length === 0 && <NewMeter />}
           {meters.length >= 0 &&
             meters.map((meter) => <h1>meter.meterName</h1>)}
         </Box>

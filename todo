@@ -10,3 +10,4 @@ backend:
 frontend:
     Clear meter data when user logs out
     Create component to display meter
+    get userId when user logs in
