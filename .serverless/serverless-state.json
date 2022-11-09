@@ -228,7 +228,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/energy-stats/dev/1667948841244-2022-11-08T23:07:21.244Z/loginUser.zip"
+                "S3Key": "serverless/energy-stats/dev/1668028272673-2022-11-09T21:11:12.673Z/loginUser.zip"
               },
               "Handler": "backend/auth/login.handler",
               "Runtime": "nodejs16.x",
@@ -266,7 +266,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/energy-stats/dev/1667948841244-2022-11-08T23:07:21.244Z/signupUser.zip"
+                "S3Key": "serverless/energy-stats/dev/1668028272673-2022-11-09T21:11:12.673Z/signupUser.zip"
               },
               "Handler": "backend/auth/signup.handler",
               "Runtime": "nodejs16.x",
@@ -304,7 +304,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/energy-stats/dev/1667948841244-2022-11-08T23:07:21.244Z/addMeter.zip"
+                "S3Key": "serverless/energy-stats/dev/1668028272673-2022-11-09T21:11:12.673Z/addMeter.zip"
               },
               "Handler": "backend/meters/addMeter.handler",
               "Runtime": "nodejs16.x",
@@ -342,7 +342,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/energy-stats/dev/1667948841244-2022-11-08T23:07:21.244Z/getMeters.zip"
+                "S3Key": "serverless/energy-stats/dev/1668028272673-2022-11-09T21:11:12.673Z/getMeters.zip"
               },
               "Handler": "backend/meters/getMeters.handler",
               "Runtime": "nodejs16.x",
@@ -373,16 +373,6 @@
               "GetMetersLogGroup"
             ]
           },
-          "AddMeterLambdaVersiongacKjh1K3kcRvY59fbi5m8mnvjobFTvdZoa4fMQ": {
-            "Type": "AWS::Lambda::Version",
-            "DeletionPolicy": "Retain",
-            "Properties": {
-              "FunctionName": {
-                "Ref": "AddMeterLambdaFunction"
-              },
-              "CodeSha256": "7i0oJeYpUo5pDPmu1TSWNZNzDKR2aGAi8L75+9P/2T0="
-            }
-          },
           "GetMetersLambdaVersionnsRbMLtd97S1CF3k4Wz6Xt3WcbagzgZmetUjuUlBQEA": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
@@ -393,14 +383,24 @@
               "CodeSha256": "ieY/0rW0felUmIJj68ysMeGGK3FDntA9FDWRCHPYXSo="
             }
           },
-          "LoginUserLambdaVersionW9MTX7U4q2rTL6owGXv5JTpnuNszm6HxV3tzZZ1iU": {
+          "AddMeterLambdaVersiongacKjh1K3kcRvY59fbi5m8mnvjobFTvdZoa4fMQ": {
+            "Type": "AWS::Lambda::Version",
+            "DeletionPolicy": "Retain",
+            "Properties": {
+              "FunctionName": {
+                "Ref": "AddMeterLambdaFunction"
+              },
+              "CodeSha256": "7i0oJeYpUo5pDPmu1TSWNZNzDKR2aGAi8L75+9P/2T0="
+            }
+          },
+          "LoginUserLambdaVersionmDhgnFeHD13o6zp8pU30Ip3bPxFjx0wEZWKkj3Myh4": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "LoginUserLambdaFunction"
               },
-              "CodeSha256": "BmCBTMO38HuxQTgAHQyMQ8JXISeFiGCpudsOE+0gcTs="
+              "CodeSha256": "roYKdy4R6b2NOdaFd5ehnd5T7lVOp9Yb6ewqy4npnWs="
             }
           },
           "SignupUserLambdaVersionMRf1kMFfKcn7ba5wRvjqYtLXHNA4l6udtWwKU39AXc": {
@@ -867,7 +867,7 @@
               "GetMetersLambdaPermissionApiGateway"
             ]
           },
-          "ApiGatewayDeployment1667948785567": {
+          "ApiGatewayDeployment1668028231954": {
             "Type": "AWS::ApiGateway::Deployment",
             "Properties": {
               "RestApiId": {
@@ -1176,15 +1176,6 @@
               "Name": "sls-energy-stats-dev-ServerlessDeploymentBucketName"
             }
           },
-          "AddMeterLambdaFunctionQualifiedArn": {
-            "Description": "Current Lambda function version",
-            "Value": {
-              "Ref": "AddMeterLambdaVersiongacKjh1K3kcRvY59fbi5m8mnvjobFTvdZoa4fMQ"
-            },
-            "Export": {
-              "Name": "sls-energy-stats-dev-AddMeterLambdaFunctionQualifiedArn"
-            }
-          },
           "GetMetersLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
@@ -1194,10 +1185,19 @@
               "Name": "sls-energy-stats-dev-GetMetersLambdaFunctionQualifiedArn"
             }
           },
+          "AddMeterLambdaFunctionQualifiedArn": {
+            "Description": "Current Lambda function version",
+            "Value": {
+              "Ref": "AddMeterLambdaVersiongacKjh1K3kcRvY59fbi5m8mnvjobFTvdZoa4fMQ"
+            },
+            "Export": {
+              "Name": "sls-energy-stats-dev-AddMeterLambdaFunctionQualifiedArn"
+            }
+          },
           "LoginUserLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "LoginUserLambdaVersionW9MTX7U4q2rTL6owGXv5JTpnuNszm6HxV3tzZZ1iU"
+              "Ref": "LoginUserLambdaVersionmDhgnFeHD13o6zp8pU30Ip3bPxFjx0wEZWKkj3Myh4"
             },
             "Export": {
               "Name": "sls-energy-stats-dev-LoginUserLambdaFunctionQualifiedArn"
@@ -1380,7 +1380,7 @@
         "timeout": 6,
         "runtime": "nodejs16.x",
         "vpc": {},
-        "versionLogicalId": "LoginUserLambdaVersionW9MTX7U4q2rTL6owGXv5JTpnuNszm6HxV3tzZZ1iU"
+        "versionLogicalId": "LoginUserLambdaVersionmDhgnFeHD13o6zp8pU30Ip3bPxFjx0wEZWKkj3Myh4"
       },
       "signupUser": {
         "handler": "backend/auth/signup.handler",
@@ -1651,7 +1651,7 @@
       "package": {
         "individually": true,
         "artifactsS3KeyDirname": "serverless/energy-stats/dev/code-artifacts",
-        "artifactDirectoryName": "serverless/energy-stats/dev/1667948841244-2022-11-08T23:07:21.244Z"
+        "artifactDirectoryName": "serverless/energy-stats/dev/1668028272673-2022-11-09T21:11:12.673Z"
       },
       "functions": {
         "$ref": "$[\"service\"][\"functions\"]"
@@ -1665,7 +1665,7 @@
   },
   "package": {
     "individually": true,
-    "artifactDirectoryName": "serverless/energy-stats/dev/1667948841244-2022-11-08T23:07:21.244Z",
+    "artifactDirectoryName": "serverless/energy-stats/dev/1668028272673-2022-11-09T21:11:12.673Z",
     "artifact": ""
   }
 }

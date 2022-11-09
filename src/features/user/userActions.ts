@@ -31,11 +31,17 @@ export const loginUser = createAsyncThunk(
         config
       );
 
-      console.log(data)
+      const userId = data.user.UserAttributes.filter(
+        (attribute: any) => attribute.Name === "sub"
+      )[0].Value;
 
       localStorage.setItem("userToken", data.token);
 
-      return data;
+      return {
+        userId,
+        token: data.token
+      };
+      // return data
     } catch (error) {
       if ((error as any).respnose && (error as any).response.data.message) {
         return rejectWithValue((error as any).response.data.message);

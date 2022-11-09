@@ -30,9 +30,21 @@ export const handler = async (event: any) => {
       },
     };
     const response = await cognito.adminInitiateAuth(params).promise();
+
+    if (!response.AuthenticationResult?.AccessToken) {
+      return sendResponse(500, {
+        message: "User not found",
+      });
+    }
+
+    const user = await cognito
+      .getUser({ AccessToken: response.AuthenticationResult?.AccessToken })
+      .promise();
+
     return sendResponse(200, {
       message: "Success",
       token: response.AuthenticationResult?.IdToken,
+      user,
     });
   } catch (error) {
     return sendResponse(500, error);

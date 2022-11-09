@@ -1,13 +1,14 @@
-Add email authentication to signup
 pass api gateway url from serverless to react
 use esbuild instead of webpack so serverless uses less memory
-Create nav bar that has logout button in it
 remove .serverless from git
 
 backend:
     add authenticattion to addMeter and getMeters endpoint
+    Add email authentication to signup
 
 frontend:
-    Clear meter data when user logs out
     Create component to display meter
-    get userId when user logs in
+    Create nav bar that has logout button in it and user settings
+    Meter containers should be nicer shape
+    Add delete/edit button to meter cards
+    Add pop up alerts if user can't sign in

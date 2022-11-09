@@ -30,6 +30,7 @@ export const NewMeter = () => {
   const { loading } = useSelector(
     (state: RootState) => state.meters
   );
+  const { userInfo } = useSelector((state: RootState) => state.user)
   const [retailer, setRetailer] = useState("");
 
   const dispatch = useAppDispatch();
@@ -40,6 +41,7 @@ export const NewMeter = () => {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    console.log(`userId: ${userInfo.userId}`)
     const data = new FormData(event.currentTarget);
     const retailer = data.get("retailer") as string;
     const gasOrElectric = data.get("electric") ? "electric" : ("gas" as string);
@@ -53,7 +55,7 @@ export const NewMeter = () => {
       meterName,
       meterSerialNumber,
       mpxn,
-      apiKey
+      apiKey,
     );
     dispatch(
       addMeter({
@@ -63,7 +65,7 @@ export const NewMeter = () => {
         meterSerialNumber,
         mpxn,
         apiKey,
-        userId: "testId",
+        userId: userInfo.userId,
       })
     );
   };

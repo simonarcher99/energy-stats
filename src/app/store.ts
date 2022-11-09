@@ -19,7 +19,6 @@ const rootReducer = (
   action: AnyAction
 ) => {
   if (action.type === logout.type) {
-    console.log("Logout action");
     return appReducer(undefined, action);
   }
   return appReducer(state, action);

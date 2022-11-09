@@ -40,7 +40,10 @@ const userSlice = createSlice({
     });
     builder.addCase(loginUser.fulfilled, (state, { payload }) => {
       state.loading = false;
-      state.userInfo = payload;
+      state.userInfo = {
+        ...state.userInfo,
+        userId: payload.userId
+      };
       state.userToken = payload.token;
       state.success = true;
     });

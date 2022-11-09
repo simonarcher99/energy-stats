@@ -34,7 +34,7 @@ export const getMeters = createAsyncThunk(
       // TODO: add userToken in authentication
       const { data } = await axios.get(`${baseUrl}/meters/get-meters`, config);
 
-      return data;
+      return data.data;
     } catch (error) {
       if ((error as any).respnose && (error as any).response.data.message) {
         return rejectWithValue((error as any).response.data.message);
