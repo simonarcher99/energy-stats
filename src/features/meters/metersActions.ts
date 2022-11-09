@@ -1,5 +1,4 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { AddMediaStreamRequest } from "aws-sdk/clients/mediaconnect";
 import axios from "axios";
 
 const baseUrl = "https://3qwfx5k0o4.execute-api.us-east-1.amazonaws.com/dev";
