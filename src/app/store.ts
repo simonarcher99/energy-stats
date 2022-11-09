@@ -1,13 +1,32 @@
-import { configureStore } from "@reduxjs/toolkit";
+import {
+  AnyAction,
+  combineReducers,
+  configureStore,
+} from "@reduxjs/toolkit";
 import { useDispatch } from "react-redux";
-import userReducer from "../features/user/userSlice";
+import userReducer, { logout } from "../features/user/userSlice";
 import metersReducer from "../features/meters/metersSlice";
 
+const appReducer = combineReducers({
+  user: userReducer,
+  meters: metersReducer,
+});
+
+const rootReducer = (
+  state:
+    | ReturnType<typeof appReducer>
+    | undefined,
+  action: AnyAction
+) => {
+  if (action.type === logout.type) {
+    console.log("Logout action");
+    return appReducer(undefined, action);
+  }
+  return appReducer(state, action);
+};
+
 const store = configureStore({
-  reducer: {
-    user: userReducer,
-    meters: metersReducer,
-  },
+  reducer: rootReducer,
 });
 export default store;
 
