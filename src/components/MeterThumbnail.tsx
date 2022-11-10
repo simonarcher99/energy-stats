@@ -11,29 +11,24 @@ import { useSelector } from "react-redux";
 import { deleteMeter } from "../features/meters/metersActions";
 import { RootState, useAppDispatch } from "../app/store";
 
-
 const MeterThumbnail = (props: {
   meterName: string;
   gasOrElectric: string;
   retailer: string;
   mpxn: string;
-  meterSerialNumber: string
+  meterSerialNumber: string;
 }) => {
-  const dispatch = useAppDispatch()
-  const { userInfo } = useSelector(
-    (state: RootState) => state.user
-  );
+  const dispatch = useAppDispatch();
+  const { userInfo } = useSelector((state: RootState) => state.user);
   const handleDeleteMeter = () => {
-    const meterSerialNumber = props.meterSerialNumber
-    const userId = userInfo.userId
-    dispatch(deleteMeter({ meterSerialNumber, userId }))
-  }
+    const meterSerialNumber = props.meterSerialNumber;
+    const userId = userInfo.userId;
+    dispatch(deleteMeter({ meterSerialNumber, userId }));
+  };
+
   return (
     <Card sx={{ minWidth: 100 }}>
       <CardContent>
-        <IconButton onClick={handleDeleteMeter}>
-          <DeleteIcon />
-        </IconButton>
         <Typography
           sx={{ fontSize: 14, textAlign: "left" }}
           color="text.secondary"
@@ -50,8 +45,11 @@ const MeterThumbnail = (props: {
         </Typography>
         <Typography variant="body2">{props.retailer}</Typography>
       </CardContent>
-      <CardActions>
-        <Button size="small">View Consumption</Button>
+      <CardActions disableSpacing>
+        <Button size="small">Consumption</Button>
+        <IconButton onClick={handleDeleteMeter} sx={{ marginLeft: "auto" }}>
+          <DeleteIcon />
+        </IconButton>
       </CardActions>
     </Card>
   );

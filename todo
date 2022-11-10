@@ -10,7 +10,7 @@ backend:
 frontend:
     Add user settings to nav bar
     Meter containers should be nicer shape
-    Add delete/edit button to meter cards
+    Add edit button to meter cards
     Add pop up alerts if user can't sign in
     Shouldn't call the get-meters endpoint every time homepage is reloaded
     save userId to session storage so that it is still there on refresh
