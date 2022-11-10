@@ -1,7 +1,6 @@
 import { Box, Container, CssBaseline, Grid, Toolbar } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { RootState, useAppDispatch } from "../app/store";
-import { NewMeter } from "../components/NewMeter";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
 import { getMeters } from "../features/meters/metersActions";
@@ -12,7 +11,7 @@ import { useNavigate } from "react-router-dom";
 const theme = createTheme();
 
 const Homepage = () => {
-  const { meters, fetched, loading } = useSelector(
+  const { meters, fetched } = useSelector(
     (state: RootState) => state.meters
   );
   const { userInfo, userToken } = useSelector((state: RootState) => state.user);
