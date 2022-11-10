@@ -20,7 +20,22 @@ import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { RootState, useAppDispatch } from "../app/store";
 import { registerUser } from "../features/user/userActions";
-import { themeOptions } from "../index"
+import { ThemeOptions } from "@mui/material";
+
+export const themeOptions: ThemeOptions = {
+  palette: {
+    primary: {
+      main: '#2e3954',
+    },
+    secondary: {
+      main: '#a6003b',
+    },
+    error: {
+      main: '#c3504a',
+    },
+  },
+};
+
 
 const theme = createTheme(themeOptions);
 

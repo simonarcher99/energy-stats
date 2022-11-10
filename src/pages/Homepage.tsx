@@ -7,7 +7,22 @@ import { getMeters } from "../features/meters/metersActions";
 import MeterThumbnail from "../components/MeterThumbnail";
 import Navbar from "../components/Navbar";
 import { useNavigate } from "react-router-dom";
-import { themeOptions } from "../index"
+import { ThemeOptions } from "@mui/material";
+
+export const themeOptions: ThemeOptions = {
+  palette: {
+    primary: {
+      main: '#2e3954',
+    },
+    secondary: {
+      main: '#a6003b',
+    },
+    error: {
+      main: '#c3504a',
+    },
+  },
+};
+
 
 const theme = createTheme(themeOptions);
 

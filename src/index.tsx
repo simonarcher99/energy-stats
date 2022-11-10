@@ -6,21 +6,6 @@ import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import store, { persistor } from "./app/store";
 import { PersistGate } from "redux-persist/integration/react";
-import { ThemeOptions } from "@mui/material";
-
-export const themeOptions: ThemeOptions = {
-  palette: {
-    primary: {
-      main: '#2e3954',
-    },
-    secondary: {
-      main: '#a6003b',
-    },
-    error: {
-      main: '#c3504a',
-    },
-  },
-};
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
