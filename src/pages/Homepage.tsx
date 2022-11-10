@@ -46,6 +46,7 @@ const Homepage = () => {
                   gasOrElectric={meter.gasOrElectric}
                   mpxn={meter.mpxn}
                   retailer={meter.retailer}
+                  meterSerialNumber={meter.meterSerialNumber}
                 />
               </Grid>
             ))}
