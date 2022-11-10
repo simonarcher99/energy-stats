@@ -60,8 +60,10 @@ const metersSlice = createSlice({
       state.loading = true;
       state.error = null;
     });
-    // TODO: when meter is deleted remove it from state
-    builder.addCase(deleteMeter.fulfilled, (state) => {
+    builder.addCase(deleteMeter.fulfilled, (state, { payload }) => {
+      state.meters = state.meters.filter(
+        (meter) => meter.meterSerialNumber !== payload.meterSerialNumber
+      );
       state.loading = false;
       state.success = true;
     });

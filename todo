@@ -5,7 +5,6 @@ remove .serverless from git
 backend:
     add authenticattion to addMeter and getMeters endpoint
     Add email authentication to signup
-    Return meterSerialNumber when meter is deleted
 
 frontend:
     Add user settings to nav bar
@@ -13,7 +12,4 @@ frontend:
     Add edit button to meter cards
     Add pop up alerts if user can't sign in
     Shouldn't call the get-meters endpoint every time homepage is reloaded
-    save userId to session storage so that it is still there on refresh
-    remove meter from state when it is deleted
-
     

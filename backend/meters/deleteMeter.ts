@@ -34,11 +34,14 @@ export const handler = async (event: any) => {
       await dynamoClient.send(new DeleteCommand(params));
       console.log("Success - item deleted");
     } catch (error) {
-        console.log(error)
+      console.log(error);
       console.log("Did not manage to delete item");
       return sendResponse(500, { message: "Unable to delete meter" });
     }
-    return sendResponse(200, { message: "Success" });
+    return sendResponse(200, {
+      message: "Success",
+      meterSerialNumber: meterSerialNumber,
+    });
   } catch (error) {
     return sendResponse(500, error);
   }
