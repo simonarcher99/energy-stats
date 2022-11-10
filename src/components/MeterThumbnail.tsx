@@ -52,8 +52,8 @@ const MeterThumbnail = (props: {
         <IconButton onClick={handleMeterSettings} sx={{ marginLeft: "auto" }}>
           <SettingsIcon />
         </IconButton>
-        <IconButton onClick={handleDeleteMeter}>
-          <DeleteIcon />
+        <IconButton onClick={handleDeleteMeter} >
+          <DeleteIcon sx={{ color: "secondary.main"}}/>
         </IconButton>
       </CardActions>
     </Card>

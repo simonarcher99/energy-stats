@@ -20,8 +20,9 @@ import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { RootState, useAppDispatch } from "../app/store";
 import { registerUser } from "../features/user/userActions";
+import { themeOptions } from "../index"
 
-const theme = createTheme();
+const theme = createTheme(themeOptions);
 
 const Signup = () => {
   const { loading, userInfo, success } = useSelector(
@@ -32,7 +33,6 @@ const Signup = () => {
 
   useEffect(() => {
     if (success) navigate("/login");
-    // if (userInfo) navigate("/");
   }, [navigate, userInfo, success]);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {

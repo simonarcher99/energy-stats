@@ -7,8 +7,9 @@ import { getMeters } from "../features/meters/metersActions";
 import MeterThumbnail from "../components/MeterThumbnail";
 import Navbar from "../components/Navbar";
 import { useNavigate } from "react-router-dom";
+import { themeOptions } from "../index"
 
-const theme = createTheme();
+const theme = createTheme(themeOptions);
 
 const Homepage = () => {
   const { meters, fetched } = useSelector(

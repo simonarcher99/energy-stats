@@ -20,8 +20,9 @@ import { useSelector } from "react-redux";
 import { RootState, useAppDispatch } from "../app/store";
 import { loginUser } from "../features/user/userActions";
 import { useEffect } from "react";
+import { themeOptions } from "../index"
 
-const theme = createTheme();
+const theme = createTheme(themeOptions);
 
 const Login = () => {
   const { loading, userToken } = useSelector(

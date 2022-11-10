@@ -24,8 +24,9 @@ import { addMeter } from "../features/meters/metersActions";
 import { RootState, useAppDispatch } from "../app/store";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { themeOptions } from "../index"
 
-const theme = createTheme();
+const theme = createTheme(themeOptions);
 
 export const NewMeter = () => {
   const { loading } = useSelector((state: RootState) => state.meters);
