@@ -17,25 +17,27 @@ import MenuIcon from "@mui/icons-material/Menu";
 
 import { useState } from "react";
 import { logout } from "../features/user/userSlice";
+import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
 
-  const handleLogout = () => {
-    dispatch(logout());
-  };
-
   const drawerWidth = 240;
-  const navItems = [{ display: "Logout", onClick: handleLogout }];
+  const navItems = [
+    { display: "Homepage", onClick: () => navigate("/") },
+    { display: "Add Meter", onClick: () => navigate("/add-meter") },
+    { display: "Logout", onClick: () => dispatch(logout()) },
+  ];
 
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: "center" }}>
       <Typography variant="h6" sx={{ my: 2 }}>
-        MUI
+        Energy Stats
       </Typography>
       <Divider />
       <List>
