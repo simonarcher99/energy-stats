@@ -1,18 +1,12 @@
-import {
-  Box,
-  Button,
-  Container,
-  CssBaseline,
-  Grid,
-} from "@mui/material";
+import { Box, Container, CssBaseline, Grid, Toolbar } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { RootState, useAppDispatch } from "../app/store";
-import { logout } from "../features/user/userSlice";
 import { NewMeter } from "../components/NewMeter";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
 import { getMeters } from "../features/meters/metersActions";
 import MeterThumbnail from "../components/MeterThumbnail";
+import Navbar from "../components/Navbar";
 
 const theme = createTheme();
 
@@ -28,13 +22,12 @@ const Homepage = () => {
     dispatch(getMeters({ userId: userInfo.userId, userToken }));
   }, [dispatch, userToken, userInfo]);
 
-  const handleLogout = () => {
-    dispatch(logout());
-  };
   return (
     <ThemeProvider theme={theme}>
+      <Navbar />
       <Container component="main" maxWidth="xs">
         <CssBaseline />
+        <Toolbar/>
         <Box
           sx={{
             marginTop: 8,
@@ -43,7 +36,6 @@ const Homepage = () => {
             alignItems: "center",
           }}
         >
-          <Button onClick={handleLogout}>Logout</Button>
           {meters.length === 0 && <NewMeter />}
           <Grid container spacing={2}>
             {meters.map((meter) => (

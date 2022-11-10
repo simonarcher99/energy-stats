@@ -7,8 +7,9 @@ backend:
     Add email authentication to signup
 
 frontend:
-    Create component to display meter
     Create nav bar that has logout button in it and user settings
     Meter containers should be nicer shape
     Add delete/edit button to meter cards
     Add pop up alerts if user can't sign in
+    Shouldn't call the get-meters endpoint every time homepage is reloaded
+    don't show form until meters have finished loading
