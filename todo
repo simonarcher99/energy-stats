@@ -5,6 +5,7 @@ remove .serverless from git
 backend:
     add authenticattion to addMeter and getMeters endpoint
     Add email authentication to signup
+    Add delete meter endpoint
 
 frontend:
     Create nav bar that has logout button in it and user settings
@@ -12,4 +13,4 @@ frontend:
     Add delete/edit button to meter cards
     Add pop up alerts if user can't sign in
     Shouldn't call the get-meters endpoint every time homepage is reloaded
-    don't show form until meters have finished loading
+    

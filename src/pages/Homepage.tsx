@@ -11,7 +11,7 @@ import Navbar from "../components/Navbar";
 const theme = createTheme();
 
 const Homepage = () => {
-  const { meters } = useSelector((state: RootState) => state.meters);
+  const { meters, loading } = useSelector((state: RootState) => state.meters);
   const { userInfo, userToken } = useSelector((state: RootState) => state.user);
   const dispatch = useAppDispatch();
   useEffect(() => {
@@ -36,7 +36,8 @@ const Homepage = () => {
             alignItems: "center",
           }}
         >
-          {meters.length === 0 && <NewMeter />}
+          {/* TODO: Redirect to AddMeter page here */}
+          {!loading && meters.length === 0 && <NewMeter />}
           <Grid container spacing={2}>
             {meters.map((meter) => (
               <Grid item xs={6}>

@@ -4,6 +4,7 @@ import Signup from "./pages/Signup";
 import Login from "./pages/Login";
 import PrivateRoute from "./components/PrivateRoute";
 import Homepage from "./pages/Homepage";
+import AddMeter from "./pages/AddMeter";
 
 function App() {
   return (
@@ -19,7 +20,14 @@ function App() {
         />
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
-        
+        <Route
+          path="/add-meter"
+          element={
+            <PrivateRoute>
+              <AddMeter />
+            </PrivateRoute>
+          }
+        />
       </Routes>
     </>
   );
