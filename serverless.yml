@@ -21,6 +21,7 @@ provider:
         - dynamodb:PutItem
         - dynamodb:Query
         - dynamodb:GetItem
+        - dynamodb:DeleteItem
       Resource: "*"
   
 
@@ -41,7 +42,7 @@ custom:
     excludeFiles: src/**/*.test.js # Provide a glob for files to ignore
 
 package:
-  individually: true
+  individually: false
 
 functions:
   loginUser:
@@ -71,6 +72,13 @@ functions:
       - http:
           path: meters/get-meters
           method: get
+          cors: true
+  deleteMeter:
+    handler: backend/meters/deleteMeter.handler
+    events:
+      - http:
+          path: meters/delete-meter
+          method: post
           cors: true
   
 

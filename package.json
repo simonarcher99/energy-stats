@@ -51,6 +51,7 @@
   },
   "devDependencies": {
     "@aws-sdk/client-dynamodb": "^3.204.0",
+    "@aws-sdk/lib-dynamodb": "^3.204.0",
     "@aws-sdk/util-dynamodb": "^3.204.0",
     "@reduxjs/toolkit": "^1.9.0",
     "axios": "^1.1.3",

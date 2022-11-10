@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { addMeter, getMeters } from "./metersActions";
+import { addMeter, getMeters, deleteMeter } from "./metersActions";
 
 type MeterData = {
   apiKey: string;
@@ -16,7 +16,7 @@ type MetersState = {
   meters: MeterData[];
   error: any;
   success: boolean;
-} 
+};
 
 const initialState: MetersState = {
   loading: false,
@@ -53,6 +53,19 @@ const metersSlice = createSlice({
       state.success = true;
     });
     builder.addCase(getMeters.rejected, (state, { payload }) => {
+      state.loading = false;
+      state.error = payload;
+    });
+    builder.addCase(deleteMeter.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    });
+    // TODO: when meter is deleted remove it from state
+    builder.addCase(deleteMeter.fulfilled, (state) => {
+      state.loading = false;
+      state.success = true;
+    });
+    builder.addCase(deleteMeter.rejected, (state, { payload }) => {
       state.loading = false;
       state.error = payload;
     });

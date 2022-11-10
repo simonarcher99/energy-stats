@@ -8,6 +8,11 @@ type GetMeters = {
   userId: string;
 };
 
+type DeleteMeter = {
+  userId: string;
+  meterSerialNumber: string;
+};
+
 type AddMeter = {
   userId: string;
   retailer: string;
@@ -28,13 +33,42 @@ export const getMeters = createAsyncThunk(
           "Content-Type": "application/json",
         },
         params: {
-            userId
-        }
+          userId,
+        },
       };
       // TODO: add userToken in authentication
       const { data } = await axios.get(`${baseUrl}/meters/get-meters`, config);
 
       return data.data;
+    } catch (error) {
+      if ((error as any).respnose && (error as any).response.data.message) {
+        return rejectWithValue((error as any).response.data.message);
+      } else {
+        return rejectWithValue((error as any).message);
+      }
+    }
+  }
+);
+
+export const deleteMeter = createAsyncThunk(
+  "meters/delete",
+  async (deleteMeterData: DeleteMeter, { rejectWithValue }) => {
+    try {
+      const { userId, meterSerialNumber } = deleteMeterData;
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      };
+      const { data } = await axios.post(
+        `${baseUrl}/meters/delete-meter`,
+        {
+          userId,
+          meterSerialNumber,
+        },
+        config
+      );
+      return data;
     } catch (error) {
       if ((error as any).respnose && (error as any).response.data.message) {
         return rejectWithValue((error as any).response.data.message);
