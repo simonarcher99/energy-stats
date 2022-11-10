@@ -23,15 +23,15 @@ import { useState } from "react";
 import { addMeter } from "../features/meters/metersActions";
 import { RootState, useAppDispatch } from "../app/store";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const theme = createTheme();
 
 export const NewMeter = () => {
-  const { loading } = useSelector(
-    (state: RootState) => state.meters
-  );
-  const { userInfo } = useSelector((state: RootState) => state.user)
+  const { loading } = useSelector((state: RootState) => state.meters);
+  const { userInfo } = useSelector((state: RootState) => state.user);
   const [retailer, setRetailer] = useState("");
+  const navigate = useNavigate();
 
   const dispatch = useAppDispatch();
 
@@ -41,7 +41,7 @@ export const NewMeter = () => {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log(`userId: ${userInfo.userId}`)
+    console.log(`userId: ${userInfo.userId}`);
     const data = new FormData(event.currentTarget);
     const retailer = data.get("retailer") as string;
     const gasOrElectric = data.get("electric") ? "electric" : ("gas" as string);
@@ -55,7 +55,7 @@ export const NewMeter = () => {
       meterName,
       meterSerialNumber,
       mpxn,
-      apiKey,
+      apiKey
     );
     dispatch(
       addMeter({
@@ -67,7 +67,9 @@ export const NewMeter = () => {
         apiKey,
         userId: userInfo.userId,
       })
-    );
+    )
+      .unwrap()
+      .then(() => navigate("/"));
   };
   return (
     <ThemeProvider theme={theme}>
@@ -186,7 +188,7 @@ export const NewMeter = () => {
               variant="contained"
               sx={{ mt: 3, mb: 2, height: "3rem" }}
             >
-              {loading ? <CircularProgress color="inherit"/> : "Add Meter"}
+              {loading ? <CircularProgress color="inherit" /> : "Add Meter"}
             </Button>
           </Box>
         </Box>

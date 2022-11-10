@@ -13,6 +13,7 @@ type MeterData = {
 
 type MetersState = {
   loading: boolean;
+  fetched: boolean;
   meters: MeterData[];
   error: any;
   success: boolean;
@@ -22,6 +23,7 @@ const initialState: MetersState = {
   loading: false,
   meters: [],
   error: null,
+  fetched: false,
   success: false,
 };
 
@@ -51,10 +53,12 @@ const metersSlice = createSlice({
       state.loading = false;
       state.meters = payload;
       state.success = true;
+      state.fetched = true;
     });
     builder.addCase(getMeters.rejected, (state, { payload }) => {
       state.loading = false;
       state.error = payload;
+      state.fetched = true;
     });
     builder.addCase(deleteMeter.pending, (state) => {
       state.loading = true;

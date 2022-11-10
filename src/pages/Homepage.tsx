@@ -7,27 +7,38 @@ import { useEffect } from "react";
 import { getMeters } from "../features/meters/metersActions";
 import MeterThumbnail from "../components/MeterThumbnail";
 import Navbar from "../components/Navbar";
+import { useNavigate } from "react-router-dom";
 
 const theme = createTheme();
 
 const Homepage = () => {
-  const { meters, loading } = useSelector((state: RootState) => state.meters);
+  const { meters, fetched, loading } = useSelector(
+    (state: RootState) => state.meters
+  );
   const { userInfo, userToken } = useSelector((state: RootState) => state.user);
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   useEffect(() => {
     if (!userToken) {
       return;
     }
-    console.log(`userId: ${JSON.stringify(userInfo.userId)}`);
-    dispatch(getMeters({ userId: userInfo.userId, userToken }));
-  }, [dispatch, userToken, userInfo]);
+    if (!fetched) {
+      dispatch(getMeters({ userId: userInfo.userId, userToken }));
+    }
+  }, [dispatch, userToken, userInfo, fetched, meters]);
+
+  useEffect(() => {
+    if (fetched && meters.length === 0) {
+      navigate("/add-meter");
+    }
+  }, [navigate, fetched, meters]);
 
   return (
     <ThemeProvider theme={theme}>
       <Navbar />
       <Container component="main" maxWidth="md">
         <CssBaseline />
-        <Toolbar/>
+        <Toolbar />
         <Box
           sx={{
             marginTop: 8,
@@ -36,8 +47,6 @@ const Homepage = () => {
             alignItems: "center",
           }}
         >
-          {/* TODO: Redirect to AddMeter page here */}
-          {!loading && meters.length === 0 && <NewMeter />}
           <Grid container spacing={2}>
             {meters.map((meter) => (
               <Grid item xs={6}>

@@ -7,6 +7,7 @@ import {
   IconButton,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
+import SettingsIcon from '@mui/icons-material/Settings';
 import { useSelector } from "react-redux";
 import { deleteMeter } from "../features/meters/metersActions";
 import { RootState, useAppDispatch } from "../app/store";
@@ -25,6 +26,7 @@ const MeterThumbnail = (props: {
     const userId = userInfo.userId;
     dispatch(deleteMeter({ meterSerialNumber, userId }));
   };
+  const handleMeterSettings = () => {}
 
   return (
     <Card sx={{ minWidth: 100 }}>
@@ -47,7 +49,10 @@ const MeterThumbnail = (props: {
       </CardContent>
       <CardActions disableSpacing>
         <Button size="small">Consumption</Button>
-        <IconButton onClick={handleDeleteMeter} sx={{ marginLeft: "auto" }}>
+        <IconButton onClick={handleMeterSettings} sx={{ marginLeft: "auto" }}>
+          <SettingsIcon />
+        </IconButton>
+        <IconButton onClick={handleDeleteMeter}>
           <DeleteIcon />
         </IconButton>
       </CardActions>
