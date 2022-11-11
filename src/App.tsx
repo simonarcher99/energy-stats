@@ -5,6 +5,7 @@ import Login from "./pages/Login";
 import PrivateRoute from "./components/PrivateRoute";
 import Homepage from "./pages/Homepage";
 import AddMeter from "./pages/AddMeter";
+import Consumption from "./pages/Consumption";
 
 function App() {
   return (
@@ -25,6 +26,14 @@ function App() {
           element={
             <PrivateRoute>
               <AddMeter />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/consumption/:meterSerialNumber"
+          element={
+            <PrivateRoute>
+              <Consumption />
             </PrivateRoute>
           }
         />

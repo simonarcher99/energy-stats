@@ -13,6 +13,7 @@ import { useSelector } from "react-redux";
 import { deleteMeter } from "../features/meters/metersActions";
 import { RootState, useAppDispatch } from "../app/store";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const MeterThumbnail = (props: {
   meterName: string;
@@ -23,6 +24,8 @@ const MeterThumbnail = (props: {
 }) => {
   const [deleteMeterLoading, setDeleteMeterLoading] = useState(false);
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
   const { userInfo } = useSelector((state: RootState) => state.user);
   const handleDeleteMeter = () => {
     const meterSerialNumber = props.meterSerialNumber;
@@ -54,7 +57,7 @@ const MeterThumbnail = (props: {
         <Typography variant="body2">{props.retailer}</Typography>
       </CardContent>
       <CardActions disableSpacing>
-        <Button size="small">Consumption</Button>
+        <Button size="small" onClick={() => navigate(`/consumption/${props.meterSerialNumber}`)}>Consumption</Button>
         <IconButton onClick={handleMeterSettings} sx={{ marginLeft: "auto" }}>
           <SettingsIcon />
         </IconButton>
