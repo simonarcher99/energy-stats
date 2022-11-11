@@ -35,7 +35,7 @@ const Navbar = () => {
   ];
 
   const drawer = (
-    <Box onClick={handleDrawerToggle} sx={{ textAlign: "center" }}>
+    <Box onClick={handleDrawerToggle} sx={{ textAlign: "center", width: drawerWidth }}>
       <Typography variant="h6" sx={{ my: 2 }}>
         Energy Stats
       </Typography>
@@ -99,7 +99,6 @@ const Navbar = () => {
             display: { xs: "block", sm: "none" },
             "&.MuiDrawer-paper": {
               boxSizing: "border-box",
-              width: drawerWidth,
             },
           }}
         >
