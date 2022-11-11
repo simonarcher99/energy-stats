@@ -15,7 +15,7 @@ export const getConsumption = createAsyncThunk(
     try {
       const { meterSerialNumber, apiKey, mpan } = getMeterConsumptionData;
       const data = await axios.get(
-        `${baseElecUrl}/${mpan}/meters/${meterSerialNumber}/consumption/?group_by=day&page=2&time=1668168408118`,
+        `${baseElecUrl}/${mpan}/meters/${meterSerialNumber}/consumption/?group_by=day&order_by=period&page_size=300`,
         { auth: { username: apiKey, password: "" } }
       );
       console.log(data.data.results);

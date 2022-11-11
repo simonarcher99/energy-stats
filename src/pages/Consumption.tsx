@@ -14,15 +14,44 @@ import { useSelector } from "react-redux";
 import { RootState, useAppDispatch } from "../app/store";
 import { useEffect } from "react";
 import { getConsumption } from "../features/consumption/consumptionActions";
-import Paper from "@mui/material/Paper";
 import {
-  Chart,
-  BarSeries,
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
   Title,
-  ArgumentAxis,
-  ValueAxis,
-} from "@devexpress/dx-react-chart-material-ui";
-import { Animation } from "@devexpress/dx-react-chart";
+  Tooltip,
+  Legend,
+  PointElement,
+  LineElement,
+} from "chart.js";
+import { Bar, Line } from "react-chartjs-2";
+import { ConsumptionData } from "../features/consumption/consumptionSlice";
+import { ChartOptions } from "chart.js"
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend
+);
+
+const options = {
+  responsive: true,
+  plugins: {
+    title: {
+      display: true,
+      text: "Consumption Data",
+    },
+    legend: {
+      display: false,
+    },
+  },
+};
 
 export const themeOptions: ThemeOptions = {
   palette: {
@@ -58,6 +87,18 @@ const Consumption = () => {
     );
   }, [dispatch, meter]);
 
+  const labels = consumption.map((data) => data.interval_start);
+
+  const data = {
+    labels,
+    datasets: [
+      {
+        data: consumption.map((data) => data.consumption),
+        backgroundColor: theme.palette.secondary.light,
+      },
+    ],
+  };
+
   return (
     <ThemeProvider theme={theme}>
       <Navbar />
@@ -72,22 +113,10 @@ const Consumption = () => {
             alignItems: "center",
           }}
         >
-          <Typography>
-            Meter Serial Number: {meter.meterSerialNumber}
-          </Typography>
-          <Typography>Meter Name: {meter.meterName}</Typography>
+          <Typography>{meter.meterName}</Typography>
           <Typography>Gas/Electric: {meter.gasOrElectric}</Typography>
-          <Typography>API Key: {meter.apiKey}</Typography>
-          {consumption.length > 0 && (
-            <Graph
-              chartData={consumption.map((dataPoint) => {
-                return {
-                  start: dataPoint.interval_start,
-                  consumption: dataPoint.consumption,
-                };
-              })}
-            />
-          )}
+          {consumption.length > 0 && <Bar options={options} data={data} />}
+          {consumption.length > 0 && <DailyAverages data={consumption} />}
         </Box>
       </Container>
     </ThemeProvider>
@@ -96,16 +125,65 @@ const Consumption = () => {
 
 export default Consumption;
 
-const Graph = (props: { chartData: any }) => {
-  return (
-    <Paper>
-      <Chart data={props.chartData} width={800}>
-        <ArgumentAxis />
-        <ValueAxis />
-        <BarSeries valueField="consumption" argumentField="start" />
-        <Title text="Daily Consumption" />
-        <Animation />
-      </Chart>
-    </Paper>
-  );
+const DailyAverages = (props: { data: ConsumptionData }) => {
+  const getDailyAverage = (day: number, data: ConsumptionData): number => {
+    const dataForDay = data.filter(
+      (data) => new Date(data.interval_start).getDay() === day
+    );
+    const totalForDay = dataForDay
+      .map((dayData) => dayData.consumption)
+      .reduce((partialSum, a) => partialSum + a, 0);
+    return totalForDay / dataForDay.length;
+  };
+
+  const options: ChartOptions<"line"> = {
+    elements: {
+      line: {
+        tension: 0.3,
+      },
+    },
+    scales: {
+      yAxis: {
+        title: {
+          display: true,
+          text: "kWh"
+        }
+      }
+    },
+    responsive: true,
+    plugins: {
+      legend: {
+        display: false,
+      },
+      title: {
+        display: true,
+        text: "Average Energy Usage By Day - 2022",
+      },
+    },
+  };
+
+  const labels = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
+
+  const data = {
+    labels,
+    datasets: [
+      {
+        label: "Dataset 1",
+        data: labels.map((label, index) =>
+          getDailyAverage(index, props.data).toFixed(2)
+        ),
+        backgroundColor: theme.palette.secondary.light,
+      },
+    ],
+  };
+
+  return <Line options={options} data={data} />;
 };

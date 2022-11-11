@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { getConsumption } from "./consumptionActions";
 
-type ConsumptionData = {
+export type ConsumptionData = {
   interval_start: string;
   interval_end: string;
   consumption: number;
