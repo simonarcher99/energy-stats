@@ -59,6 +59,7 @@ const metersSlice = createSlice({
       state.loading = false;
       state.error = payload;
       state.fetched = true;
+      state.success = false
     });
     builder.addCase(deleteMeter.pending, (state) => {
       state.loading = true;
