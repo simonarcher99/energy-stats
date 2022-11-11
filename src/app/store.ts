@@ -6,12 +6,14 @@ import {
 import { useDispatch } from "react-redux";
 import userReducer, { logout } from "../features/user/userSlice";
 import metersReducer from "../features/meters/metersSlice";
+import consumptionReducer from "../features/consumption/consumptionSlice"
 import { persistStore, persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 
 const appReducer = combineReducers({
   user: userReducer,
   meters: metersReducer,
+  consumption: consumptionReducer
 });
 
 const rootReducer = (

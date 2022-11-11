@@ -68,7 +68,7 @@ export const deleteMeter = createAsyncThunk(
         },
         config
       );
-      console.log(`data: ${JSON.stringify(data)}`)
+      console.log(`data: ${JSON.stringify(data)}`);
       return data;
     } catch (error) {
       if ((error as any).respnose && (error as any).response.data.message) {

@@ -12,4 +12,4 @@ frontend:
     Meter containers should be nicer shape
     Add pop up alerts if user can't sign in
     Settings cog on meters card opens up a pop up with full meter details
-    consumption button links to page with graph
+    Add a call to octopus consumption API
