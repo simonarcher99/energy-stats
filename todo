@@ -1,3 +1,4 @@
+BUG - changes on one device aren't reflected on the other until state it reset
 pass api gateway url from serverless to react
 use esbuild instead of webpack so serverless uses less memory
 remove .serverless from git
@@ -12,4 +13,4 @@ frontend:
     Add pop up alerts if user can't sign in
     Settings cog on meters card opens up a pop up with full meter details
     consumption button links to page with graph
-    show loading on homepage when fetching meters         
+    show loading on homepage when fetching meters

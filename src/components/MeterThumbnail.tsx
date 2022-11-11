@@ -5,12 +5,14 @@ import {
   CardActions,
   Button,
   IconButton,
+  CircularProgress,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
-import SettingsIcon from '@mui/icons-material/Settings';
+import SettingsIcon from "@mui/icons-material/Settings";
 import { useSelector } from "react-redux";
 import { deleteMeter } from "../features/meters/metersActions";
 import { RootState, useAppDispatch } from "../app/store";
+import { useState } from "react";
 
 const MeterThumbnail = (props: {
   meterName: string;
@@ -19,14 +21,18 @@ const MeterThumbnail = (props: {
   mpxn: string;
   meterSerialNumber: string;
 }) => {
+  const [deleteMeterLoading, setDeleteMeterLoading] = useState(false);
   const dispatch = useAppDispatch();
   const { userInfo } = useSelector((state: RootState) => state.user);
   const handleDeleteMeter = () => {
     const meterSerialNumber = props.meterSerialNumber;
     const userId = userInfo.userId;
-    dispatch(deleteMeter({ meterSerialNumber, userId }));
+    setDeleteMeterLoading(true);
+    dispatch(deleteMeter({ meterSerialNumber, userId }))
+      .unwrap()
+      .then(() => setDeleteMeterLoading(false));
   };
-  const handleMeterSettings = () => {}
+  const handleMeterSettings = () => {};
 
   return (
     <Card sx={{ minWidth: 100 }}>
@@ -52,8 +58,12 @@ const MeterThumbnail = (props: {
         <IconButton onClick={handleMeterSettings} sx={{ marginLeft: "auto" }}>
           <SettingsIcon />
         </IconButton>
-        <IconButton onClick={handleDeleteMeter} >
-          <DeleteIcon sx={{ color: "secondary.main"}}/>
+        <IconButton onClick={handleDeleteMeter}>
+          {deleteMeterLoading ? (
+            <CircularProgress size="1em"/>
+          ) : (
+            <DeleteIcon sx={{ color: "secondary.main" }} />
+          )}
         </IconButton>
       </CardActions>
     </Card>
