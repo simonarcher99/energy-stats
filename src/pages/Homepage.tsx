@@ -8,6 +8,7 @@ import MeterThumbnail from "../components/MeterThumbnail";
 import Navbar from "../components/Navbar";
 import { useNavigate } from "react-router-dom";
 import { ThemeOptions } from "@mui/material";
+import { CircularLoading } from "../components/LoadingPage";
 
 export const themeOptions: ThemeOptions = {
   palette: {
@@ -51,6 +52,7 @@ const Homepage = () => {
   return (
     <ThemeProvider theme={theme}>
       <Navbar />
+      {!fetched && <CircularLoading/>}
       <Container component="main" maxWidth="md">
         <CssBaseline />
         <Toolbar />
