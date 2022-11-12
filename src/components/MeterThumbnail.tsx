@@ -14,6 +14,7 @@ import { deleteMeter } from "../features/meters/metersActions";
 import { RootState, useAppDispatch } from "../app/store";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import MeterSettings from "./MeterSettings";
 
 const MeterThumbnail = (props: {
   meterName: string;
@@ -23,6 +24,7 @@ const MeterThumbnail = (props: {
   meterSerialNumber: string;
 }) => {
   const [deleteMeterLoading, setDeleteMeterLoading] = useState(false);
+  const [meterSettingsOpen, setMeterSettingsOpen] = useState(false);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
@@ -35,7 +37,7 @@ const MeterThumbnail = (props: {
       .unwrap()
       .then(() => setDeleteMeterLoading(false));
   };
-  const handleMeterSettings = () => {};
+  const handleOpenMeterSettings = () => setMeterSettingsOpen(true);
 
   return (
     <Card sx={{ minWidth: 100 }}>
@@ -57,13 +59,25 @@ const MeterThumbnail = (props: {
         <Typography variant="body2">{props.retailer}</Typography>
       </CardContent>
       <CardActions disableSpacing>
-        <Button size="small" onClick={() => navigate(`/consumption/${props.meterSerialNumber}`)}>Consumption</Button>
-        <IconButton onClick={handleMeterSettings} sx={{ marginLeft: "auto" }}>
+        <Button
+          size="small"
+          onClick={() => navigate(`/consumption/${props.meterSerialNumber}`)}
+        >
+          Consumption
+        </Button>
+        <IconButton
+          onClick={handleOpenMeterSettings}
+          sx={{ marginLeft: "auto" }}
+        >
           <SettingsIcon />
         </IconButton>
+        <MeterSettings
+          open={meterSettingsOpen}
+          setOpen={setMeterSettingsOpen}
+        />
         <IconButton onClick={handleDeleteMeter}>
           {deleteMeterLoading ? (
-            <CircularProgress size="1em"/>
+            <CircularProgress size="1em" />
           ) : (
             <DeleteIcon sx={{ color: "secondary.main" }} />
           )}
