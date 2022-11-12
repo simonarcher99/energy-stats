@@ -1,5 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getConsumption } from "./consumptionActions";
+import {
+  getHourlyConsumption,
+  getDailyConsumption,
+  getWeeklyConsumption,
+} from "./consumptionActions";
 
 export type ConsumptionData = {
   interval_start: string;
@@ -11,14 +15,23 @@ type ConsumptionState = {
   loading: boolean;
   error: any;
   success: boolean;
-  consumption: ConsumptionData;
+  consumption: {
+    weekly: ConsumptionData;
+    daily: ConsumptionData;
+
+    hourly: ConsumptionData;
+  };
 };
 
 const initialState: ConsumptionState = {
   loading: false,
   error: null,
   success: false,
-  consumption: [],
+  consumption: {
+    weekly: [],
+    daily: [],
+    hourly: [],
+  },
 };
 
 const consumptionSlice = createSlice({
@@ -26,22 +39,54 @@ const consumptionSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(getConsumption.pending, (state) => {
+    builder.addCase(getWeeklyConsumption.pending, (state) => {
       state.loading = true;
       state.error = null;
     });
-    builder.addCase(getConsumption.fulfilled, (state, { payload }) => {
-        state.loading = false;
-        state.error = null;
-        state.consumption = payload
-        state.success = true
-    })
-    builder.addCase(getConsumption.rejected, (state, {payload}) => {
-        state.loading = false;
-        state.error = payload;
-        state.success = false
-        state.consumption = []
-    })
+    builder.addCase(getWeeklyConsumption.fulfilled, (state, { payload }) => {
+      state.loading = false;
+      state.error = null;
+      state.consumption.weekly = payload;
+      state.success = true;
+    });
+    builder.addCase(getWeeklyConsumption.rejected, (state, { payload }) => {
+      state.loading = false;
+      state.error = payload;
+      state.success = false;
+      state.consumption.weekly = [];
+    });
+    builder.addCase(getDailyConsumption.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    });
+    builder.addCase(getDailyConsumption.fulfilled, (state, { payload }) => {
+      state.loading = false;
+      state.error = null;
+      state.consumption.daily = payload;
+      state.success = true;
+    });
+    builder.addCase(getDailyConsumption.rejected, (state, { payload }) => {
+      state.loading = false;
+      state.error = payload;
+      state.success = false;
+      state.consumption.daily = [];
+    });
+    builder.addCase(getHourlyConsumption.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    });
+    builder.addCase(getHourlyConsumption.fulfilled, (state, { payload }) => {
+      state.loading = false;
+      state.error = null;
+      state.consumption.hourly = payload;
+      state.success = true;
+    });
+    builder.addCase(getHourlyConsumption.rejected, (state, { payload }) => {
+      state.loading = false;
+      state.error = payload;
+      state.success = false;
+      state.consumption.hourly = [];
+    });
   },
 });
 

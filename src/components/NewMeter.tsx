@@ -16,7 +16,6 @@ import {
   SelectChangeEvent,
   TextField,
 } from "@mui/material";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
 import ElectricMeterIcon from "@mui/icons-material/ElectricMeter";
 import GasMeterIcon from "@mui/icons-material/GasMeter";
 import { useState } from "react";
@@ -24,23 +23,7 @@ import { addMeter } from "../features/meters/metersActions";
 import { RootState, useAppDispatch } from "../app/store";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { ThemeOptions } from "@mui/material";
 
-export const themeOptions: ThemeOptions = {
-  palette: {
-    primary: {
-      main: '#2e3954',
-    },
-    secondary: {
-      main: '#a6003b',
-    },
-    error: {
-      main: '#c3504a',
-    },
-  },
-};
-
-const theme = createTheme(themeOptions);
 
 export const NewMeter = () => {
   const { loading } = useSelector((state: RootState) => state.meters);
@@ -87,7 +70,7 @@ export const NewMeter = () => {
       .then(() => navigate("/"));
   };
   return (
-    <ThemeProvider theme={theme}>
+    <>
       <Container>
         <CssBaseline />
         <Box
@@ -208,6 +191,6 @@ export const NewMeter = () => {
           </Box>
         </Box>
       </Container>
-    </ThemeProvider>
+    </>
   );
 };
