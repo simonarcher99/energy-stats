@@ -4,6 +4,7 @@ import {
   Toolbar,
   Box,
   Typography,
+  Grid,
 } from "@mui/material";
 import Navbar from "../components/Navbar";
 import { useParams } from "react-router-dom";
@@ -17,7 +18,6 @@ import {
 } from "../features/consumption/consumptionActions";
 import DailyAverages from "../components/Charts/DailyAverages";
 import DailyBarChart from "../components/Charts/DailyBarChart";
-
 
 const Consumption = () => {
   const { meterSerialNumber } = useParams();
@@ -53,13 +53,32 @@ const Consumption = () => {
             alignItems: "center",
           }}
         >
-          <Typography>{meter.meterName}</Typography>
-          <Typography>Gas/Electric: {meter.gasOrElectric}</Typography>
+          <Container
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "top",
+              pb: "2rem",
+            }}
+          >
+            <Typography variant="h2">{meter.meterName}</Typography>
+            <Typography variant="h6" sx={{ opacity: "50%" }}>
+              Fuel:{" "}
+              {meter.gasOrElectric.charAt(0).toUpperCase() +
+                meter.gasOrElectric.slice(1)}
+            </Typography>
+          </Container>
+
           {consumption.daily.length > 0 && (
-            <DailyBarChart consumption={consumption.daily} />
-          )}
-          {consumption.daily.length > 0 && (
-            <DailyAverages data={consumption.daily} />
+            <Grid container spacing={5}>
+              <Grid item xs={12}>
+                <DailyBarChart consumption={consumption.daily} />
+              </Grid>
+
+              <Grid item xs={12}>
+                <DailyAverages data={consumption.daily} />
+              </Grid>
+            </Grid>
           )}
         </Box>
       </Container>

@@ -8,6 +8,7 @@ import {
   Title,
   Tooltip,
   Legend,
+  ChartOptions,
 } from "chart.js";
 import { Bar } from "react-chartjs-2";
 import { appTheme } from "../../App";
@@ -25,8 +26,23 @@ const DailyBarChart = (props: { consumption: ConsumptionData }) => {
     Legend
   );
 
-  const options = {
+  const options: ChartOptions<"bar"> = {
     responsive: true,
+    scales: {
+      yAxis: {
+        title: {
+          display: true,
+          text: "kWh",
+        },
+      },
+      xAxis: {
+        ticks: {
+          display: true,
+          autoSkip: true,
+          maxTicksLimit: 5,
+        },
+      },
+    },
     plugins: {
       title: {
         display: true,
@@ -35,10 +51,17 @@ const DailyBarChart = (props: { consumption: ConsumptionData }) => {
       legend: {
         display: false,
       },
+      tooltip: {
+        callbacks: {
+          label: (item) => `${item.formattedValue} kWh`,
+        },
+      },
     },
   };
 
-  const labels = props.consumption.map((data) => data.interval_start);
+  const labels = props.consumption.map((data) =>
+    new Date(data.interval_start).toDateString()
+  );
 
   const data = {
     labels,
