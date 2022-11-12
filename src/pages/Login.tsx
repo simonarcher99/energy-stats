@@ -1,4 +1,3 @@
-import { createTheme, ThemeProvider } from "@mui/material/styles";
 import {
   Avatar,
   Box,
@@ -20,23 +19,7 @@ import { useSelector } from "react-redux";
 import { RootState, useAppDispatch } from "../app/store";
 import { loginUser } from "../features/user/userActions";
 import { useEffect } from "react";
-import { ThemeOptions } from "@mui/material";
 
-export const themeOptions: ThemeOptions = {
-  palette: {
-    primary: {
-      main: '#2e3954',
-    },
-    secondary: {
-      main: '#a6003b',
-    },
-    error: {
-      main: '#c3504a',
-    },
-  },
-};
-
-const theme = createTheme(themeOptions);
 
 const Login = () => {
   const { loading, userToken } = useSelector(
@@ -57,7 +40,7 @@ const Login = () => {
     dispatch(loginUser({ email, password }));
   };
   return (
-    <ThemeProvider theme={theme}>
+    <>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
@@ -129,7 +112,7 @@ const Login = () => {
         </Box>
         <Copyright sx={{ mt: 8, mb: 4 }} />
       </Container>
-    </ThemeProvider>
+    </>
   );
 };
 

@@ -6,10 +6,28 @@ import PrivateRoute from "./components/PrivateRoute";
 import Homepage from "./pages/Homepage";
 import AddMeter from "./pages/AddMeter";
 import Consumption from "./pages/Consumption";
+import { createTheme, ThemeOptions } from "@mui/material";
+import { ThemeProvider } from "@emotion/react";
+
+const themeOptions: ThemeOptions = {
+  palette: {
+    primary: {
+      main: "#2e3954",
+    },
+    secondary: {
+      main: "#a6003b",
+    },
+    error: {
+      main: "#c3504a",
+    },
+  },
+};
+
+export const appTheme = createTheme(themeOptions);
 
 function App() {
   return (
-    <>
+    <ThemeProvider theme={appTheme}>
       <Routes>
         <Route
           path="/"
@@ -38,7 +56,7 @@ function App() {
           }
         />
       </Routes>
-    </>
+    </ThemeProvider>
   );
 }
 

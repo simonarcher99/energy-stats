@@ -1,4 +1,3 @@
-import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Container from "@mui/material/Container";
 import {
   Avatar,
@@ -20,24 +19,7 @@ import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { RootState, useAppDispatch } from "../app/store";
 import { registerUser } from "../features/user/userActions";
-import { ThemeOptions } from "@mui/material";
 
-export const themeOptions: ThemeOptions = {
-  palette: {
-    primary: {
-      main: '#2e3954',
-    },
-    secondary: {
-      main: '#a6003b',
-    },
-    error: {
-      main: '#c3504a',
-    },
-  },
-};
-
-
-const theme = createTheme(themeOptions);
 
 const Signup = () => {
   const { loading, userInfo, success } = useSelector(
@@ -61,7 +43,7 @@ const Signup = () => {
     dispatch(registerUser({ email, password, givenName, familyName }));
   };
   return (
-    <ThemeProvider theme={theme}>
+    <>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
@@ -157,7 +139,7 @@ const Signup = () => {
         </Box>
         <Copyright sx={{ mt: 5 }} />
       </Container>
-    </ThemeProvider>
+    </>
   );
 };
 

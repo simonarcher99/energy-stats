@@ -1,5 +1,4 @@
 import { Box, Container, CssBaseline, Grid, Toolbar } from "@mui/material";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { RootState, useAppDispatch } from "../app/store";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
@@ -7,25 +6,8 @@ import { getMeters } from "../features/meters/metersActions";
 import MeterThumbnail from "../components/MeterThumbnail";
 import Navbar from "../components/Navbar";
 import { useNavigate } from "react-router-dom";
-import { ThemeOptions } from "@mui/material";
 import { CircularLoading } from "../components/LoadingPage";
 
-export const themeOptions: ThemeOptions = {
-  palette: {
-    primary: {
-      main: '#2e3954',
-    },
-    secondary: {
-      main: '#a6003b',
-    },
-    error: {
-      main: '#c3504a',
-    },
-  },
-};
-
-
-const theme = createTheme(themeOptions);
 
 const Homepage = () => {
   const { meters, fetched } = useSelector(
@@ -50,7 +32,7 @@ const Homepage = () => {
   }, [navigate, fetched, meters]);
 
   return (
-    <ThemeProvider theme={theme}>
+    <>
       <Navbar />
       {!fetched && <CircularLoading/>}
       <Container component="main" maxWidth="md">
@@ -79,7 +61,7 @@ const Homepage = () => {
           </Grid>
         </Box>
       </Container>
-    </ThemeProvider>
+    </>
   );
 };
 
