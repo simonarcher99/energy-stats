@@ -24,11 +24,6 @@ import { appTheme } from "../../App";
 import { ConsumptionData } from "../../features/consumption/consumptionSlice";
 import { useState } from "react";
 
-interface ConsumptionGraphPeriod {
-  start: string;
-  end: string;
-}
-
 const ConsumptionBarChart = (props: {
   consumption: ConsumptionData;
   unit: string;
