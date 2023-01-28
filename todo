@@ -9,6 +9,5 @@ backend:
 
 frontend:
     Add user settings to nav bar
-    Meter containers should be nicer shape
-    Add pop up alerts if user can't sign in
     Settings cog on meters card opens up a pop up with full meter details
+    Add buttons to control time period on consumption graph

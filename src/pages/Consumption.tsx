@@ -4,7 +4,7 @@ import {
   Toolbar,
   Box,
   Typography,
-  Grid,
+  Grid
 } from "@mui/material";
 import Navbar from "../components/Navbar";
 import { useParams } from "react-router-dom";
@@ -12,12 +12,12 @@ import { useSelector } from "react-redux";
 import { RootState, useAppDispatch } from "../app/store";
 import { useEffect } from "react";
 import {
-  getDailyConsumption,
-  getHourlyConsumption,
-  getWeeklyConsumption,
+  getConsumption,
+  GetMeterConsumption,
 } from "../features/consumption/consumptionActions";
 import DailyAverages from "../components/Charts/DailyAverages";
-import DailyBarChart from "../components/Charts/DailyBarChart";
+import ConsumptionBarChart from "../components/Charts/ConsumptionBarChart";
+import HourlyAverages from "../components/Charts/HourlyAverages";
 
 const Consumption = () => {
   const { meterSerialNumber } = useParams();
@@ -28,15 +28,15 @@ const Consumption = () => {
     (meter) => meter.meterSerialNumber === meterSerialNumber
   )[0];
   useEffect(() => {
-    const apiData = {
+    const apiData: GetMeterConsumption = {
       meterSerialNumber: meter.meterSerialNumber,
       apiKey: meter.apiKey,
       mpxn: meter.mpxn,
       gasOrElec: meter.gasOrElectric,
+      period: "hour",
+      pageSize: 1000,
     };
-    dispatch(getDailyConsumption(apiData));
-    dispatch(getWeeklyConsumption(apiData));
-    dispatch(getHourlyConsumption(apiData));
+    dispatch(getConsumption(apiData));
   }, [dispatch, meter]);
 
   return (
@@ -51,6 +51,7 @@ const Consumption = () => {
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
+            marginBottom: "2rem",
           }}
         >
           <Container
@@ -69,14 +70,27 @@ const Consumption = () => {
             </Typography>
           </Container>
 
-          {consumption.daily.length > 0 && (
+          {consumption.length > 0 && (
             <Grid container spacing={5}>
               <Grid item xs={12}>
-                <DailyBarChart consumption={consumption.daily} />
+                <ConsumptionBarChart
+                  consumption={consumption}
+                  unit={meter.gasOrElectric === "electric" ? "kWh" : "m^3"}
+                />
               </Grid>
-
               <Grid item xs={12}>
-                <DailyAverages data={consumption.daily} />
+                <HourlyAverages
+                  data={consumption}
+                  gasOrElec={meter.gasOrElectric}
+                  unit={meter.gasOrElectric === "electric" ? "kWh" : "m^3"}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <DailyAverages
+                  data={consumption}
+                  gasOrElec={meter.gasOrElectric}
+                  unit={meter.gasOrElectric === "electric" ? "kWh" : "m^3"}
+                />
               </Grid>
             </Grid>
           )}
