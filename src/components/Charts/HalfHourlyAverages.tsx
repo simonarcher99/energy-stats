@@ -1,3 +1,7 @@
+import { ChartOptions } from "chart.js";
+import { appTheme } from "../../App";
+import { Line } from "react-chartjs-2";
+import { ConsumptionData } from "../../features/consumption/consumptionSlice";
 import {
   FormControl,
   FormControlLabel,
@@ -5,29 +9,29 @@ import {
   Radio,
   RadioGroup,
 } from "@mui/material";
-import { ChartOptions } from "chart.js";
 import { useState } from "react";
-import { Line } from "react-chartjs-2";
-import { appTheme } from "../../App";
-import { ConsumptionData } from "../../features/consumption/consumptionSlice";
 
-const DailyAverages = (props: {
+const HalfHourlyAverages = (props: {
   data: ConsumptionData;
   unit: string;
   gasOrElec: string;
 }) => {
   const [period, setPeriod] = useState<"1" | "3" | "6" | "12" | "all">("all");
 
-  const getDailyAverage = (day: number, data: ConsumptionData): number => {
-    const dataForDay = data.filter(
-      (data) => new Date(data.interval_start).getDay() === day
+  const getHalfHourlyAverages = (
+    halfHour: number,
+    data: ConsumptionData
+  ): number => {
+    const dataForHour = data.filter(
+      (data) =>
+        new Date(data.interval_start).getHours() * 2 +
+          new Date(data.interval_start).getMinutes() / 30 ===
+        halfHour
     );
-    const totalForDay = dataForDay
-      .map((dayData) => dayData.consumption)
+    const totalForHour = dataForHour
+      .map((hourData) => hourData.consumption)
       .reduce((partialSum, a) => partialSum + a, 0);
-    console.log(`totalForDay: ${totalForDay}`);
-    console.log(`Number of days: ${dataForDay.length}`);
-    return totalForDay / (dataForDay.length / 48);
+    return totalForHour / dataForHour.length;
   };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -55,19 +59,60 @@ const DailyAverages = (props: {
       },
       title: {
         display: true,
-        text: `Average ${props.gasOrElec} usage by day`,
+        text: `Average ${props.gasOrElec} usage by half hour`,
       },
     },
   };
 
   const labels = [
-    "Sunday",
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
+    "0000",
+    "0030",
+    "0100",
+    "0130",
+    "0200",
+    "0230",
+    "0300",
+    "0330",
+    "0400",
+    "0430",
+    "0500",
+    "0530",
+    "0600",
+    "0630",
+    "0700",
+    "0730",
+    "0800",
+    "0830",
+    "0900",
+    "0930",
+    "1000",
+    "1030",
+    "1100",
+    "1130",
+    "1200",
+    "1230",
+    "1300",
+    "1330",
+    "1400",
+    "1430",
+    "1500",
+    "1530",
+    "1600",
+    "1630",
+    "1700",
+    "1730",
+    "1800",
+    "1830",
+    "1900",
+    "1930",
+    "2000",
+    "2030",
+    "2100",
+    "2130",
+    "2200",
+    "2230",
+    "2300",
+    "2330",
   ];
 
   const filteredData = props.data.filter((data) => {
@@ -90,13 +135,12 @@ const DailyAverages = (props: {
       {
         label: "Usage",
         data: labels.map((label, index) =>
-          getDailyAverage(index, filteredData).toFixed(3)
+          getHalfHourlyAverages(index, filteredData).toFixed(3)
         ),
         backgroundColor: appTheme.palette.secondary.light,
       },
     ],
   };
-
   return (
     <>
       <FormControl>
@@ -120,4 +164,4 @@ const DailyAverages = (props: {
   );
 };
 
-export default DailyAverages;
+export default HalfHourlyAverages;

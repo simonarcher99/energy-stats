@@ -17,7 +17,7 @@ import {
 } from "../features/consumption/consumptionActions";
 import DailyAverages from "../components/Charts/DailyAverages";
 import ConsumptionBarChart from "../components/Charts/ConsumptionBarChart";
-import HourlyAverages from "../components/Charts/HourlyAverages";
+import HourlyAverages from "../components/Charts/HalfHourlyAverages";
 
 const Consumption = () => {
   const { meterSerialNumber } = useParams();
@@ -62,7 +62,7 @@ const Consumption = () => {
               pb: "2rem",
             }}
           >
-            <Typography variant="h2">{meter.meterName}</Typography>
+            <Typography variant="h4">{meter.meterName}</Typography>
             <Typography variant="h6" sx={{ opacity: "50%" }}>
               Fuel:{" "}
               {meter.gasOrElectric.charAt(0).toUpperCase() +
