@@ -35,7 +35,9 @@ const HalfHourlyAverages = (props: {
   };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setPeriod((event.target as HTMLInputElement).value as "1" | "3" | "6" | "12" | "all");
+    setPeriod(
+      (event.target as HTMLInputElement).value as "1" | "3" | "6" | "12" | "all"
+    );
   };
 
   const options: ChartOptions<"line"> = {
@@ -48,7 +50,7 @@ const HalfHourlyAverages = (props: {
       yAxis: {
         title: {
           display: true,
-          text: props.unit,
+          text: props.unit === "m" ? "m\u00B3" : props.unit,
         },
       },
     },
@@ -60,6 +62,14 @@ const HalfHourlyAverages = (props: {
       title: {
         display: true,
         text: `Average ${props.gasOrElec} usage by half hour`,
+      },
+      tooltip: {
+        callbacks: {
+          label: (item) =>
+            `${item.formattedValue}${
+              props.unit === "m" ? "m\u00B3" : props.unit
+            }`,
+        },
       },
     },
   };
@@ -144,21 +154,33 @@ const HalfHourlyAverages = (props: {
   return (
     <>
       <FormControl>
-      <FormLabel id="demo-controlled-radio-buttons-group">Period</FormLabel>
-      <RadioGroup
-        aria-labelledby="demo-controlled-radio-buttons-group"
-        name="controlled-radio-buttons-group"
-        value={period}
-        onChange={handleChange}
-        row
-      >
-        <FormControlLabel value="1" control={<Radio />} label="Last month" />
-        <FormControlLabel value="3" control={<Radio />} label="Last 3 months" />
-        <FormControlLabel value="6" control={<Radio />} label="Last 6 months" />
-        <FormControlLabel value="12" control={<Radio />} label="Last 12 months" />
-        <FormControlLabel value="all" control={<Radio />} label="All time" />
-      </RadioGroup>
-    </FormControl>
+        <FormLabel id="demo-controlled-radio-buttons-group">Period</FormLabel>
+        <RadioGroup
+          aria-labelledby="demo-controlled-radio-buttons-group"
+          name="controlled-radio-buttons-group"
+          value={period}
+          onChange={handleChange}
+          row
+        >
+          <FormControlLabel value="1" control={<Radio />} label="Last month" />
+          <FormControlLabel
+            value="3"
+            control={<Radio />}
+            label="Last 3 months"
+          />
+          <FormControlLabel
+            value="6"
+            control={<Radio />}
+            label="Last 6 months"
+          />
+          <FormControlLabel
+            value="12"
+            control={<Radio />}
+            label="Last 12 months"
+          />
+          <FormControlLabel value="all" control={<Radio />} label="All time" />
+        </RadioGroup>
+      </FormControl>
       <Line options={options} data={data} />
     </>
   );

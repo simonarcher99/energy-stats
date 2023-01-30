@@ -72,7 +72,7 @@ const ConsumptionBarChart = (props: {
       yAxis: {
         title: {
           display: true,
-          text: props.unit,
+          text: props.unit === "m" ? "m\u00B3" : props.unit,
         },
       },
       xAxis: {
@@ -93,7 +93,10 @@ const ConsumptionBarChart = (props: {
       },
       tooltip: {
         callbacks: {
-          label: (item) => `${item.formattedValue} kWh`,
+          label: (item) =>
+            `${item.formattedValue}${
+              props.unit === "m" ? "m\u00B3" : props.unit
+            }`,
         },
       },
     },

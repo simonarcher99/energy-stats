@@ -4,13 +4,15 @@ import {
   Toolbar,
   Box,
   Typography,
-  Grid
+  Grid,
+  ToggleButton,
+  ToggleButtonGroup,
 } from "@mui/material";
 import Navbar from "../components/Navbar";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootState, useAppDispatch } from "../app/store";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
   getConsumption,
   GetMeterConsumption,
@@ -24,6 +26,7 @@ const Consumption = () => {
   const dispatch = useAppDispatch();
   const { meters } = useSelector((state: RootState) => state.meters);
   const { consumption } = useSelector((state: RootState) => state.consumption);
+  const [unit, setUnit] = useState<"kWh" | "m">("kWh");
   const meter = meters.filter(
     (meter) => meter.meterSerialNumber === meterSerialNumber
   )[0];
@@ -38,6 +41,23 @@ const Consumption = () => {
     };
     dispatch(getConsumption(apiData));
   }, [dispatch, meter]);
+
+  const handleChange = (
+    event: React.MouseEvent<HTMLElement>,
+    newUnit: "kWh" | "m"
+  ) => {
+    setUnit(newUnit);
+  };
+
+  const consumptionWithUnits = consumption.map((data) => {
+    return {
+      ...data,
+      consumption:
+        meter.gasOrElectric === "gas" && unit === "kWh"
+          ? (data.consumption * 40 * 1.02264) / 3.6
+          : data.consumption,
+    };
+  });
 
   return (
     <>
@@ -58,38 +78,57 @@ const Consumption = () => {
             sx={{
               display: "flex",
               justifyContent: "space-between",
-              alignItems: "top",
+              alignItems: "center",
               pb: "2rem",
             }}
           >
             <Typography variant="h4">{meter.meterName}</Typography>
-            <Typography variant="h6" sx={{ opacity: "50%" }}>
-              Fuel:{" "}
-              {meter.gasOrElectric.charAt(0).toUpperCase() +
-                meter.gasOrElectric.slice(1)}
-            </Typography>
+            <Box sx={{ display: "flex", alignItems: "center" }}>
+              <Typography variant="h6" sx={{ opacity: "50%", padding: "1rem" }}>
+                Fuel:{" "}
+                {meter.gasOrElectric.charAt(0).toUpperCase() +
+                  meter.gasOrElectric.slice(1)}
+              </Typography>
+              {meter.gasOrElectric === "gas" && (
+                <ToggleButtonGroup
+                  color="primary"
+                  value={unit}
+                  exclusive
+                  onChange={handleChange}
+                  aria-label="Platform"
+                >
+                  <ToggleButton value="kWh" sx={{ textTransform: "none" }}>
+                    kWh
+                  </ToggleButton>
+                  <ToggleButton value="m" sx={{ textTransform: "none" }}>
+                    {"m"}
+                    <sup>3</sup>
+                  </ToggleButton>
+                </ToggleButtonGroup>
+              )}
+            </Box>
           </Container>
 
-          {consumption.length > 0 && (
+          {consumptionWithUnits.length > 0 && (
             <Grid container spacing={5}>
               <Grid item xs={12}>
                 <ConsumptionBarChart
-                  consumption={consumption}
-                  unit={meter.gasOrElectric === "electric" ? "kWh" : "m^3"}
+                  consumption={consumptionWithUnits}
+                  unit={unit}
                 />
               </Grid>
               <Grid item xs={12}>
                 <HourlyAverages
-                  data={consumption}
+                  data={consumptionWithUnits}
                   gasOrElec={meter.gasOrElectric}
-                  unit={meter.gasOrElectric === "electric" ? "kWh" : "m^3"}
+                  unit={unit}
                 />
               </Grid>
               <Grid item xs={12}>
                 <DailyAverages
-                  data={consumption}
+                  data={consumptionWithUnits}
                   gasOrElec={meter.gasOrElectric}
-                  unit={meter.gasOrElectric === "electric" ? "kWh" : "m^3"}
+                  unit={unit}
                 />
               </Grid>
             </Grid>
