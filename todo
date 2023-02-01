@@ -16,4 +16,3 @@ frontend:
     get https?
     If there is a next page for meter readings call it
     Call the consumption endpoint if it hasn't been called in the last 12 hours
-    Look into - "warning a promise was rejected with a non-error"

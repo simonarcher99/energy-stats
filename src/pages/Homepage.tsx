@@ -48,7 +48,7 @@ const Homepage = () => {
         >
           <Grid container spacing={2}>
             {meters.map((meter) => (
-              <Grid item sm={6} xs={12}>
+              <Grid item sm={6} xs={12} key={meter.meterSerialNumber}>
                 <MeterThumbnail
                   meterName={meter.meterName}
                   gasOrElectric={meter.gasOrElectric}

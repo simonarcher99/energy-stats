@@ -25,8 +25,6 @@ const DailyAverages = (props: {
     const totalForDay = dataForDay
       .map((dayData) => dayData.consumption)
       .reduce((partialSum, a) => partialSum + a, 0);
-    console.log(`totalForDay: ${totalForDay}`);
-    console.log(`Number of days: ${dataForDay.length}`);
     return totalForDay / (dataForDay.length / 48);
   };
 
