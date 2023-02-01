@@ -9,7 +9,7 @@ export type GetMeterConsumption = {
   apiKey: string;
   mpxn: string;
   gasOrElec: string;
-  period: "day" | "week" | "month" | "hour",
+  period: "day" | "week" | "month" | "hour";
   pageSize: number;
 };
 
@@ -21,35 +21,29 @@ export const getConsumption = createAsyncThunk(
         getMeterConsumptionData;
       let url = `${
         gasOrElec === "electric" ? baseElecUrl : baseGasUrl
-      }/${mpxn}/meters/${meterSerialNumber}/consumption/`
-      let data = await axios.get(
-        url,
-        {
-          params: {
-            period_from: "2019-01-01T00:00:00",
-            period_to: "2023-07-01T00:00:00",
-            page_size: "20000"           
-          },
-          auth: { username: apiKey, password: "" },
-        }
-      );
-      console.log(data.data)
-      const aggregatedData = data.data.results
+      }/${mpxn}/meters/${meterSerialNumber}/consumption/`;
+      let data = await axios.get(url, {
+        params: {
+          period_from: "2019-01-01T00:00:00",
+          period_to: "2023-07-01T00:00:00",
+          page_size: "20000",
+        },
+        auth: { username: apiKey, password: "" },
+      });
+      console.log(data.data);
+      const aggregatedData = data.data.results;
       while (data.data.next) {
-        console.log(data.data.next)
-        
-        url = data.data.next
-        data = await axios.get(
-          url,
-          {
-            auth: { username: apiKey, password: "" },
-          }
-        );
-        console.log(data.data)
-        aggregatedData.push(data.data.results)
+        console.log(data.data.next);
+
+        url = data.data.next;
+        data = await axios.get(url, {
+          auth: { username: apiKey, password: "" },
+        });
+        console.log(data.data);
+        aggregatedData.push(data.data.results);
       }
       console.log(aggregatedData);
-      return aggregatedData;
+      return { meterSerialNumber, readingData: aggregatedData };
     } catch (error) {
       if ((error as any).respnose && (error as any).response.data.message) {
         return rejectWithValue((error as any).response.data.message);

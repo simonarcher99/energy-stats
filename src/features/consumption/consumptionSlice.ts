@@ -1,7 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
-import {
-  getConsumption
-} from "./consumptionActions";
+import { getConsumption } from "./consumptionActions";
+
+type ConsumptionDataMap = Record<
+  string,
+  {
+    interval_start: string;
+    interval_end: string;
+    consumption: number;
+  }[]
+>;
 
 export type ConsumptionData = {
   interval_start: string;
@@ -13,14 +20,14 @@ type ConsumptionState = {
   loading: boolean;
   error: any;
   success: boolean;
-  consumption: ConsumptionData;
+  consumption: ConsumptionDataMap;
 };
 
 const initialState: ConsumptionState = {
   loading: false,
   error: null,
   success: false,
-  consumption: [],
+  consumption: {},
 };
 
 const consumptionSlice = createSlice({
@@ -35,14 +42,17 @@ const consumptionSlice = createSlice({
     builder.addCase(getConsumption.fulfilled, (state, { payload }) => {
       state.loading = false;
       state.error = null;
-      state.consumption = payload;
+      state.consumption = {
+        ...state.consumption,
+        [payload.meterSerialNumber]: payload.readingData,
+      };
       state.success = true;
     });
     builder.addCase(getConsumption.rejected, (state, { payload }) => {
       state.loading = false;
       state.error = payload;
       state.success = false;
-      state.consumption = [];
+      state.consumption = {};
     });
   },
 });

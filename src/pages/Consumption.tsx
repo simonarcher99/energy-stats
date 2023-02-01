@@ -31,16 +31,20 @@ const Consumption = () => {
     (meter) => meter.meterSerialNumber === meterSerialNumber
   )[0];
   useEffect(() => {
-    const apiData: GetMeterConsumption = {
-      meterSerialNumber: meter.meterSerialNumber,
-      apiKey: meter.apiKey,
-      mpxn: meter.mpxn,
-      gasOrElec: meter.gasOrElectric,
-      period: "hour",
-      pageSize: 1000,
-    };
-    dispatch(getConsumption(apiData));
-  }, [dispatch, meter]);
+    if (consumption[meterSerialNumber as string]) {
+      return;
+    } else {
+      const apiData: GetMeterConsumption = {
+        meterSerialNumber: meter.meterSerialNumber,
+        apiKey: meter.apiKey,
+        mpxn: meter.mpxn,
+        gasOrElec: meter.gasOrElectric,
+        period: "hour",
+        pageSize: 1000,
+      };
+      dispatch(getConsumption(apiData));
+    }
+  }, [dispatch, meter, consumption, meterSerialNumber]);
 
   const handleChange = (
     event: React.MouseEvent<HTMLElement>,
@@ -49,7 +53,9 @@ const Consumption = () => {
     setUnit(newUnit);
   };
 
-  const consumptionWithUnits = consumption.map((data) => {
+  const consumptionWithUnits = (
+    consumption[meterSerialNumber as string] || []
+  ).map((data) => {
     return {
       ...data,
       consumption:
