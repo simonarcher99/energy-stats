@@ -5,36 +5,26 @@ import {
   CardActions,
   Button,
   IconButton,
-  CircularProgress,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import SettingsIcon from "@mui/icons-material/Settings";
 import { useSelector } from "react-redux";
-import { deleteMeter } from "../features/meters/metersActions";
-import { RootState, useAppDispatch } from "../app/store";
+import { RootState } from "../app/store";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import MeterSettings from "./MeterSettings";
 import { MeterData } from "../features/meters/metersSlice";
+import ConfirmDeletePopup from "./ConfirmDeletePopup";
 
-const MeterThumbnail = (props: {
-  meter: MeterData
-}) => {
-  const [deleteMeterLoading, setDeleteMeterLoading] = useState(false);
+const MeterThumbnail = (props: { meter: MeterData }) => {
   const [meterSettingsOpen, setMeterSettingsOpen] = useState(false);
-  const dispatch = useAppDispatch();
+  const [confirmMeterDeleteOpen, setConfirmMeterDeleteOpen] = useState(false);
+
   const navigate = useNavigate();
 
   const { userInfo } = useSelector((state: RootState) => state.user);
-  const handleDeleteMeter = () => {
-    const meterSerialNumber = props.meter.meterSerialNumber;
-    const userId = userInfo.userId;
-    setDeleteMeterLoading(true);
-    dispatch(deleteMeter({ meterSerialNumber, userId }))
-      .unwrap()
-      .then(() => setDeleteMeterLoading(false));
-  };
   const handleOpenMeterSettings = () => setMeterSettingsOpen(true);
+  const handleConfirmDelete = () => setConfirmMeterDeleteOpen(true);
 
   return (
     <Card sx={{ minWidth: 100 }}>
@@ -58,7 +48,9 @@ const MeterThumbnail = (props: {
       <CardActions disableSpacing>
         <Button
           size="small"
-          onClick={() => navigate(`/consumption/${props.meter.meterSerialNumber}`)}
+          onClick={() =>
+            navigate(`/consumption/${props.meter.meterSerialNumber}`)
+          }
         >
           Consumption
         </Button>
@@ -73,13 +65,15 @@ const MeterThumbnail = (props: {
           setOpen={setMeterSettingsOpen}
           meter={props.meter}
         />
-        <IconButton onClick={handleDeleteMeter}>
-          {deleteMeterLoading ? (
-            <CircularProgress size="1em" />
-          ) : (
-            <DeleteIcon sx={{ color: "secondary.main" }} />
-          )}
+        <IconButton onClick={handleConfirmDelete}>
+          <DeleteIcon sx={{ color: "secondary.main" }} />
         </IconButton>
+        <ConfirmDeletePopup
+          open={confirmMeterDeleteOpen}
+          setOpen={setConfirmMeterDeleteOpen}
+          meter={props.meter}
+          userId={userInfo.userId}
+        />
       </CardActions>
     </Card>
   );

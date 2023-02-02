@@ -9,9 +9,7 @@ backend:
 
 frontend:
     Before adding a meter make an API call to check the details can be fetched
-    Add confirmation popup before deleting meter
     Add user settings to nav bar
     Changes filtering so that edge periods aren't cut off
-    get https?
-    If there is a next page for meter readings call it
+    Move cloudfront distribution to IaC
     Call the consumption endpoint if it hasn't been called in the last 12 hours
