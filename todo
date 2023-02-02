@@ -12,4 +12,3 @@ frontend:
     Add user settings to nav bar
     Changes filtering so that edge periods aren't cut off
     Move cloudfront distribution to IaC
-    Call the consumption endpoint if it hasn't been called in the last 12 hours

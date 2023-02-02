@@ -31,7 +31,12 @@ const Consumption = () => {
     (meter) => meter.meterSerialNumber === meterSerialNumber
   )[0];
   useEffect(() => {
-    if (consumption[meterSerialNumber as string]) {
+    if (
+      consumption[meterSerialNumber as string] &&
+      new Date().getTime() -
+        consumption[meterSerialNumber as string].collected <
+        18000000
+    ) {
       return;
     } else {
       const apiData: GetMeterConsumption = {
@@ -53,8 +58,9 @@ const Consumption = () => {
     setUnit(newUnit);
   };
 
+  // Don't like this!
   const consumptionWithUnits = (
-    consumption[meterSerialNumber as string] || []
+    (consumption[meterSerialNumber as string] || []).data || []
   ).map((data) => {
     return {
       ...data,

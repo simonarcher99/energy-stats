@@ -43,7 +43,7 @@ export const getConsumption = createAsyncThunk(
         aggregatedData.push(data.data.results);
       }
       console.log(aggregatedData);
-      return { meterSerialNumber, readingData: aggregatedData };
+      return { meterSerialNumber, readingData: aggregatedData, collected: new Date().getTime() };
     } catch (error) {
       if ((error as any).respnose && (error as any).response.data.message) {
         return rejectWithValue((error as any).response.data.message);

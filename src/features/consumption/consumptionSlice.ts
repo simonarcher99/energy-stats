@@ -4,10 +4,13 @@ import { getConsumption } from "./consumptionActions";
 type ConsumptionDataMap = Record<
   string,
   {
-    interval_start: string;
-    interval_end: string;
-    consumption: number;
-  }[]
+    collected: number;
+    data: {
+      interval_start: string;
+      interval_end: string;
+      consumption: number;
+    }[];
+  }
 >;
 
 export type ConsumptionData = {
@@ -44,7 +47,10 @@ const consumptionSlice = createSlice({
       state.error = null;
       state.consumption = {
         ...state.consumption,
-        [payload.meterSerialNumber]: payload.readingData,
+        [payload.meterSerialNumber]: {
+          data: payload.readingData,
+          collected: payload.collected,
+        },
       };
       state.success = true;
     });
