@@ -1,7 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { addMeter, getMeters, deleteMeter } from "./metersActions";
+import {
+  addMeter,
+  getMeters,
+  deleteMeter,
+  updateMeterName,
+} from "./metersActions";
 
-type MeterData = {
+export type MeterData = {
   apiKey: string;
   gasOrElectric: string;
   meterSerialNumber: string;
@@ -45,6 +50,25 @@ const metersSlice = createSlice({
       state.loading = false;
       state.error = payload;
     });
+    builder.addCase(updateMeterName.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    });
+    builder.addCase(updateMeterName.fulfilled, (state, { payload }) => {
+      state.loading = false;
+      state.meters = [...state.meters].map((meter) => {
+        if (meter.meterSerialNumber === payload.meterSerialNumber) {
+          return payload;
+        } else {
+          return meter;
+        }
+      });
+      state.success = true;
+    });
+    builder.addCase(updateMeterName.rejected, (state, { payload }) => {
+      state.loading = false;
+      state.error = payload;
+    });
     builder.addCase(getMeters.pending, (state) => {
       state.loading = true;
       state.error = null;
@@ -59,7 +83,7 @@ const metersSlice = createSlice({
       state.loading = false;
       state.error = payload;
       state.fetched = true;
-      state.success = false
+      state.success = false;
     });
     builder.addCase(deleteMeter.pending, (state) => {
       state.loading = true;

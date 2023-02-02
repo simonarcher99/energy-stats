@@ -50,11 +50,7 @@ const Homepage = () => {
             {meters.map((meter) => (
               <Grid item sm={6} xs={12} key={meter.meterSerialNumber}>
                 <MeterThumbnail
-                  meterName={meter.meterName}
-                  gasOrElectric={meter.gasOrElectric}
-                  mpxn={meter.mpxn}
-                  retailer={meter.retailer}
-                  meterSerialNumber={meter.meterSerialNumber}
+                  meter={meter}
                 />
               </Grid>
             ))}

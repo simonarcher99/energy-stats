@@ -1,4 +1,8 @@
-import { Box, Modal, Typography } from "@mui/material";
+import { Box, Button, CircularProgress, Grid, Modal, TextField } from "@mui/material";
+import { useSelector } from "react-redux";
+import { RootState, useAppDispatch } from "../app/store";
+import { MeterData } from "../features/meters/metersSlice";
+import { updateMeterName } from "../features/meters/metersActions";
 
 const style = {
   position: "absolute" as "absolute",
@@ -15,7 +19,31 @@ const style = {
 const MeterSettings = (props: {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  meter: MeterData;
 }) => {
+  const { userInfo } = useSelector((state: RootState) => state.user);
+  const { loading } = useSelector((state: RootState) => state.meters);
+
+  const dispatch = useAppDispatch();
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    dispatch(
+      updateMeterName({
+        retailer: props.meter.retailer,
+        gasOrElectric: props.meter.gasOrElectric,
+        meterName: data.get("meterName") as string,
+        meterSerialNumber: props.meter.meterSerialNumber,
+        mpxn: props.meter.mpxn,
+        apiKey: props.meter.apiKey,
+        userId: userInfo.userId,
+      })
+    )
+      .unwrap()
+      .then(() => props.setOpen(false));
+  };
+
   return (
     <Modal
       open={props.open}
@@ -24,12 +52,42 @@ const MeterSettings = (props: {
       aria-describedby="modal-modal-description"
     >
       <Box sx={style}>
-        <Typography id="modal-modal-title" variant="h6" component="h2">
-          Text in a modal
-        </Typography>
-        <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-          Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-        </Typography>
+        <Box component="form" noValidate onSubmit={handleSubmit}>
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <TextField
+                name="meterName"
+                required
+                fullWidth
+                id="meterName"
+                label="Meter nickname"
+                defaultValue={props.meter.meterName}
+              />
+            </Grid>
+          </Grid>
+          <Grid container spacing={2}>
+            <Grid item xs={6}>
+              <Button
+                fullWidth
+                variant="outlined"
+                sx={{ mt: 3, mb: 2, height: "3rem" }}
+                onClick={() => props.setOpen(false)}
+              >
+                Cancel
+              </Button>
+            </Grid>
+            <Grid item xs={6}>
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                sx={{ mt: 3, mb: 2, height: "3rem" }}
+              >
+                {loading ? <CircularProgress color="inherit" /> : "Save"}
+              </Button>
+            </Grid>
+          </Grid>
+        </Box>
       </Box>
     </Modal>
   );

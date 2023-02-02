@@ -15,13 +15,10 @@ import { RootState, useAppDispatch } from "../app/store";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import MeterSettings from "./MeterSettings";
+import { MeterData } from "../features/meters/metersSlice";
 
 const MeterThumbnail = (props: {
-  meterName: string;
-  gasOrElectric: string;
-  retailer: string;
-  mpxn: string;
-  meterSerialNumber: string;
+  meter: MeterData
 }) => {
   const [deleteMeterLoading, setDeleteMeterLoading] = useState(false);
   const [meterSettingsOpen, setMeterSettingsOpen] = useState(false);
@@ -30,7 +27,7 @@ const MeterThumbnail = (props: {
 
   const { userInfo } = useSelector((state: RootState) => state.user);
   const handleDeleteMeter = () => {
-    const meterSerialNumber = props.meterSerialNumber;
+    const meterSerialNumber = props.meter.meterSerialNumber;
     const userId = userInfo.userId;
     setDeleteMeterLoading(true);
     dispatch(deleteMeter({ meterSerialNumber, userId }))
@@ -47,21 +44,21 @@ const MeterThumbnail = (props: {
           color="text.secondary"
           gutterBottom
         >
-          {props.mpxn}
+          {props.meter.mpxn}
         </Typography>
 
         <Typography variant="h5" component="div">
-          {props.meterName}
+          {props.meter.meterName}
         </Typography>
         <Typography sx={{ mb: 1.5 }} color="text.secondary">
-          {props.gasOrElectric}
+          {props.meter.gasOrElectric}
         </Typography>
-        <Typography variant="body2">{props.retailer}</Typography>
+        <Typography variant="body2">{props.meter.retailer}</Typography>
       </CardContent>
       <CardActions disableSpacing>
         <Button
           size="small"
-          onClick={() => navigate(`/consumption/${props.meterSerialNumber}`)}
+          onClick={() => navigate(`/consumption/${props.meter.meterSerialNumber}`)}
         >
           Consumption
         </Button>
@@ -74,6 +71,7 @@ const MeterThumbnail = (props: {
         <MeterSettings
           open={meterSettingsOpen}
           setOpen={setMeterSettingsOpen}
+          meter={props.meter}
         />
         <IconButton onClick={handleDeleteMeter}>
           {deleteMeterLoading ? (

@@ -23,6 +23,16 @@ type AddMeter = {
   apiKey: string;
 };
 
+type UpdateMeter = {
+  userId: string;
+  retailer: string;
+  gasOrElectric: string;
+  meterName: string;
+  meterSerialNumber: string;
+  mpxn: string;
+  apiKey: string;
+};
+
 export const getMeters = createAsyncThunk(
   "meters/get",
   async (getMetersData: GetMeters, { rejectWithValue }) => {
@@ -130,3 +140,54 @@ export const addMeter = createAsyncThunk(
     }
   }
 );
+
+export const updateMeterName = createAsyncThunk(
+  "meters/update",
+  async (updateMeterDetail: UpdateMeter, { rejectWithValue }) => {
+    try {
+      const {
+        userId,
+        retailer,
+        gasOrElectric,
+        meterName,
+        meterSerialNumber,
+        mpxn,
+        apiKey,
+      } = updateMeterDetail;
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      };
+      await axios.post(
+        `${baseUrl}/meters/add-meter`,
+        {
+          userId,
+          retailer,
+          gasOrElectric,
+          meterName,
+          meterSerialNumber,
+          mpxn,
+          apiKey,
+        },
+        config
+      );
+
+      return {
+        userId,
+        retailer,
+        gasOrElectric,
+        meterName,
+        meterSerialNumber,
+        mpxn,
+        apiKey,
+      };
+    } catch (error) {
+      if ((error as any).respnose && (error as any).response.data.message) {
+        return rejectWithValue((error as any).response.data.message);
+      } else {
+        return rejectWithValue((error as any).message);
+      }
+    }
+  }
+)
