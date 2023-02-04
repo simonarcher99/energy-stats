@@ -9,6 +9,11 @@ backend:
 
 frontend:
     Before adding a meter make an API call to check the details can be fetched
+    If API can not be called then an error should be displayed
     Add user settings to nav bar
     Changes filtering so that edge periods aren't cut off
     Move cloudfront distribution to IaC
+    Make consumption page mobile friendly
+    Show current carbon intensity for electricity
+    Get carbon intensities for electricity and display CO2 emissions
+    Show loading spinner whilst data is collecting from octopus API

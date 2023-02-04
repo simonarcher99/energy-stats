@@ -20,6 +20,7 @@ import {
 import DailyAverages from "../components/Charts/DailyAverages";
 import ConsumptionBarChart from "../components/Charts/ConsumptionBarChart";
 import HourlyAverages from "../components/Charts/HalfHourlyAverages";
+import CarbonIntensity from "../components/CarbonIntensity";
 
 const Consumption = () => {
   const { meterSerialNumber } = useParams();
@@ -144,6 +145,9 @@ const Consumption = () => {
                 />
               </Grid>
             </Grid>
+          )}
+          {meter.gasOrElectric === "electric" && (
+            <CarbonIntensity mpan={meter.mpxn} />
           )}
         </Box>
       </Container>
