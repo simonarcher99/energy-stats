@@ -14,8 +14,7 @@ interface CarbonIntensityObject {
   index: string;
 }
 
-const CarbonIntensity = (props: { mpan: string }) => {
-  const [gsp, setGsp] = useState<string | undefined>();
+const CarbonIntensity = (props: { gsp: string }) => {
   const [error, setError] = useState<string | undefined>();
   const [currentCarbonIntensity, setCurrentCarbonIntensity] = useState<
   CarbonIntensityObject | undefined
@@ -31,20 +30,7 @@ const CarbonIntensity = (props: { mpan: string }) => {
   };
 
   useEffect(() => {
-    axios
-      .get(
-        `https://api.octopus.energy/v1/electricity-meter-points/${props.mpan}/`
-      )
-      .then((res) => res.data)
-      .then((data) => setGsp(data.gsp))
-      .catch((error) => setError(error.message));
-  }, [props.mpan]);
-
-  useEffect(() => {
-    if (!gsp) {
-      return;
-    }
-    const regionId = gspToRegionId[gsp];
+    const regionId = gspToRegionId[props.gsp];
     axios
       .get(`https://api.carbonintensity.org.uk/regional/regionid/${regionId}`)
       .then((res) => res.data)
@@ -55,18 +41,17 @@ const CarbonIntensity = (props: { mpan: string }) => {
       })
       .catch((error) => setError(error.message));
     console.log("GSP is now set");
-  }, [gsp]);
+  }, [props.gsp]);
 
   return (
-    <Box sx={{display: "flex", flexDirection: "column", alignItems: "center", marginTop: "3rem"}}>
-      <Typography variant="h4">Current carbon intensity</Typography>
+    <Box>
       <Grid
         container
         spacing={5}
         sx={{ display: "flex", alignItems: "center" }}
       >
         <Grid item xs={5}>
-          {gsp && <Typography fontWeight={"bold"}>{gspToRegion[gsp]}</Typography>}
+          {props.gsp && <Typography fontWeight={"bold"}>{gspToRegion[props.gsp]}</Typography>}
           {currentCarbonIntensity && (
             <>
               <Typography>

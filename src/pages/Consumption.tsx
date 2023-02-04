@@ -21,16 +21,28 @@ import DailyAverages from "../components/Charts/DailyAverages";
 import ConsumptionBarChart from "../components/Charts/ConsumptionBarChart";
 import HourlyAverages from "../components/Charts/HalfHourlyAverages";
 import CarbonIntensity from "../components/CarbonIntensity";
+import axios from "axios";
 
 const Consumption = () => {
   const { meterSerialNumber } = useParams();
   const dispatch = useAppDispatch();
   const { meters } = useSelector((state: RootState) => state.meters);
   const { consumption } = useSelector((state: RootState) => state.consumption);
+  const [gsp, setGsp] = useState<string | undefined>();
   const [unit, setUnit] = useState<"kWh" | "m">("kWh");
   const meter = meters.filter(
     (meter) => meter.meterSerialNumber === meterSerialNumber
   )[0];
+
+  useEffect(() => {
+    axios
+      .get(
+        `https://api.octopus.energy/v1/electricity-meter-points/${meter.mpxn}/`
+      )
+      .then((res) => res.data)
+      .then((data) => setGsp(data.gsp));
+  }, [meter.mpxn]);
+
   useEffect(() => {
     if (
       consumption[meterSerialNumber as string] &&
@@ -146,8 +158,11 @@ const Consumption = () => {
               </Grid>
             </Grid>
           )}
-          {meter.gasOrElectric === "electric" && (
-            <CarbonIntensity mpan={meter.mpxn} />
+          {meter.gasOrElectric === "electric" && gsp && (
+            <Box sx={{display: "flex", flexDirection: "column", alignItems: "center", marginTop: "3rem"}}>
+              <Typography variant="h4">Current Carbon Intensity</Typography>
+              <CarbonIntensity gsp={gsp} />
+            </Box>
           )}
         </Box>
       </Container>
