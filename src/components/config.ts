@@ -39,3 +39,15 @@ export const intesityIndexColors: Record<string, string> = {
   high: "OrangeRed",
   "very high": "red",
 };
+
+export const fuelToColor: Record<string, string> = {
+  solar: "rgb(100, 250, 230)",
+  hydro: "rgb(100, 240, 160)",
+  biomass: "rgb(90, 160, 190)",
+  nuclear: "rgb(87, 102, 234)",
+  other: "rgb(140, 102, 234)",
+  imports: "rgb(140, 140, 234)",
+  wind: "rgb(140, 140, 180)",
+  gas: "rgb(140, 100, 120)",
+  coal: "rgb(90, 100, 120)",
+};

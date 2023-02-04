@@ -1,6 +1,7 @@
 import { GenerationMix } from "../CarbonIntensity";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Pie } from "react-chartjs-2";
+import { fuelToColor } from "../config";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -22,15 +23,17 @@ const GenerationMixPieChart = (props: { generationMix: GenerationMix[] }) => {
     }
   };
 
-  const sortedGenerationMix = props.generationMix.filter(data => data.perc !== 0).sort((a, b) => {
-    if (a.perc < b.perc) {
-      return 1;
-    }
-    if (a.perc > b.perc) {
-      return -1;
-    }
-    return 0;
-  });
+  const sortedGenerationMix = props.generationMix
+    .filter((data) => data.perc !== 0)
+    .sort((a, b) => {
+      if (a.perc < b.perc) {
+        return 1;
+      }
+      if (a.perc > b.perc) {
+        return -1;
+      }
+      return 0;
+    });
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   for (let i in sortedGenerationMix) {
@@ -44,7 +47,9 @@ const GenerationMixPieChart = (props: { generationMix: GenerationMix[] }) => {
         label: "Fuel type",
         data: sortedGenerationMix.map((entry) => entry.perc),
         borderWidth: 1,
-        backgroundColor: randomBackgroundColor
+        backgroundColor: sortedGenerationMix.map(
+          (entry) => fuelToColor[entry.fuel]
+        ),
       },
     ],
   };
@@ -53,12 +58,12 @@ const GenerationMixPieChart = (props: { generationMix: GenerationMix[] }) => {
     responsive: true,
     plugins: {
       legend: {
-          display: true,
-          position: "right" as "right"
-      }
+        display: true,
+        position: "right" as "right",
+      },
     },
   };
-  return <Pie data={data} options={options}/>;
+  return <Pie data={data} options={options} />;
 };
 
 export default GenerationMixPieChart;
